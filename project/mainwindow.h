@@ -50,9 +50,13 @@ private slots:
 
     void readFromFile( QListWidget*, QString);
 
-    void saveToArchive(QListWidgetItem *item);
+   // void saveToArchive(QListWidgetItem *item);
+
+    void saveItem(QListWidgetItem *item, QString nameoffile);
 
     void removeSelectedItem();
+
+    void removeSelectedItem(QListWidget* );
 
     void readFromFileNotCheckable(QListWidget* NotesList, QString nameoffile);
 
@@ -71,7 +75,9 @@ private slots:
 
     void copyToGroup();
 
-    //void moveToGroup();
+    void createfiles();
+
+    void moveToGroup();
 
 signals:
     void sendDataToAnotherWindow(QString);
@@ -91,7 +97,14 @@ void deleteFile(QString);
 
 void closeEvent (QCloseEvent *event) override;
 
+QString qspressed = "font: 11pt\"Bodoni MT\" ;background-color: rgb(109, 127, 209); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
 
+QString qsreleased = "font: 11pt\"Bodoni MT\" ;background-color: rgb(172, 169, 255); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
+
+QString const NameOfNotes ="notes";
+QString const NameOfArchive="archive";
+QString const NameOfMenu = "menu";
+QString const fileFormat = ".txt";
 
 };
 #endif // MAINWINDOW_H

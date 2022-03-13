@@ -11,19 +11,28 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+
+    createfiles();
+
     QListWidget* NotesList = ui->listWidget;
-    NotesList->setStyleSheet("QListView {font: 75 11pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
+    NotesList->setStyleSheet("QListView {font: 13pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
                              "QListView::item{color:rgb(155, 38, 175);}");
+
     readFromFile(NotesList, "notes");
-    NotesList->setContextMenuPolicy(Qt::CustomContextMenu);       //maybe delete
+    NotesList->setContextMenuPolicy(Qt::CustomContextMenu);
 
     NotesList = ui->listWidget_2;
-    NotesList->setStyleSheet("QListView {font: 75 11pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
-                             "QListView::item{color:rgb(155, 38, 175);}");
+
+    NotesList->setStyleSheet("QListView {font: 16pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
+                           "QListView::item{color:rgb(155, 38, 175); ;}");
+
      readFromFileNotCheckable(NotesList, "menu");
-NotesList->setCurrentItem(NotesList->item(0));
-prevIndex = 0;
-    createConnections(); //delete?
+
+    NotesList->setCurrentItem(NotesList->item(0));
+
+    prevIndex = 0;
+
+    createConnections();
 
 
 
@@ -32,11 +41,23 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-//styles for buttons
-QString qspressed = "font: 11pt\"Bodoni MT\" ;background-color: rgb(109, 127, 209); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
-QString qsreleased = "font: 11pt\"Bodoni MT\" ;background-color: rgb(172, 169, 255); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
-//list of notes
 
+
+void MainWindow::createfiles()
+{
+    QFile f1(this->NameOfMenu + fileFormat);
+    if(!f1.exists()){
+        f1.open(QIODevice::WriteOnly);
+        f1.close();
+        QListWidgetItem item;
+        item.setText(NameOfNotes);
+        saveItem(&item,NameOfMenu);
+        item.setText(NameOfArchive);
+        saveItem(&item,NameOfMenu);
+
+
+    }
+}
 void MainWindow::on_pushButton_pressed()
 {
     ui->pushButton->setStyleSheet(qspressed);
@@ -65,7 +86,7 @@ void MainWindow::on_pushButton_3_released()
 
     changeMenuSelectionBack();
     QString line = ui->listWidget_2->currentItem()->text();         //saving notes to the file of the activated list
-    line.resize(line.size()-1);
+   // line.resize(line.size()-1);                                    //why???
     saveToFile(line,NotesList);
 
 
@@ -104,11 +125,11 @@ void MainWindow::on_pushButton_released()
 
     changeMenuSelectionBack();
     QString line = ui->listWidget_2->currentItem()->text();
-    line.resize(line.size()-1);
+   // line.resize(line.size()-1);                                    //why???
 
 
     saveToFile(line,ui->listWidget);
-    saveToFile("menu",ui->listWidget_2);
+    saveToFile(NameOfMenu,ui->listWidget_2);
     QApplication::quit();
 }
 
@@ -144,11 +165,11 @@ void MainWindow::removeLastGroupItem()
     delete item;
 
 }
-void MainWindow::editNameOfGroup()
+void MainWindow::editNameOfGroup()           //To do : change editing
 {
 
     QListWidgetItem* item = ui->listWidget_2->item(ui->listWidget_2->count()-1);
-    qDebug()<<ui->listWidget_2->count();                        //delete
+
     QString name = item->text();
 
     if(name.size()==0)
@@ -157,26 +178,20 @@ void MainWindow::editNameOfGroup()
     }
     else
     {
-    name.replace("_"," ");
-    name = name.simplified();
-    name.replace(" ","_");
+    //name.replace("_"," ");
+    name = name.trimmed();
+    //name.replace(" ","_");
     for(int i=0; i<name.size(); i++)
-        if(!name[i].isLetterOrNumber() && name[i]!='_')
+        if(name[i] == '\\' || name[i] =='/' || name[i] ==':' || name[i] =='?' || name[i] =='"' || name[i] =='>' || name[i] =='<' || name[i] =='|')
         {
             removeLastGroupItem();
            return;
         }
-    if(name.size()==0)
-    {
-          removeLastGroupItem();
-          return;
-    }
-    else
-       {
-        name.push_back(' ');
+
+       // name.push_back(' ');                                      //why??
         item->setText(name);
         isNameValid();
-       }
+
     }
 }
 
@@ -185,33 +200,45 @@ void MainWindow::isNameValid()
 
      QListWidgetItem* item = ui->listWidget_2->item(ui->listWidget_2->count()-1);
      QString name = item->text();
-     name.resize(name.size()-1);
-    QFile file ("menu.txt");
+    // name.resize(name.size()-1);                                                 //why????
+//    QFile file (NameOfMenu + fileFormat);
 
-    if(file.open(QIODevice::ReadOnly))
-    {
-        while(!file.atEnd())
-        {
-            QString line = file.readLine();
-            if(line[line.size()-1]=='\n')
-                line.resize(line.size()-2);
-            if(!QString::compare(line,name,Qt::CaseSensitivity::CaseSensitive))
-            {
+//    if(file.open(QIODevice::ReadOnly))
+//    {
+//        while(!file.atEnd())
+//        {
+//            QString line = file.readLine();
+//            if(line[line.size()-1]=='\n')
+//               //line.resize(line.size()-2);
+//                line.resize(line.size()-1);
+//            if(!QString::compare(line,name,Qt::CaseSensitivity::CaseSensitive))
+//            {
 
-                removeLastGroupItem();                      //delete
-                return;
-            }
-        }
-    }
+//                removeLastGroupItem();                      //delete
+//                return;
+//            }
+//        }
+//        file.close();
+//    }
 
-    saveToFile("menu",ui->listWidget_2);
+     int count = ui->listWidget_2->count()-1;
+     for(int i=0; i<count; i++)
+     {
+
+         if(!QString::compare(ui->listWidget_2->item(i)->text(),name,Qt::CaseSensitivity::CaseSensitive))
+         {
+             removeLastGroupItem();                      //delete
+             return;
+         }
+     }
+             saveToFile(NameOfMenu,ui->listWidget_2);
 
 }
 
 
 void MainWindow::deleteFile(QString nameoffile)
 {
-    nameoffile+=".txt";
+    nameoffile+=fileFormat;
     QFile file(nameoffile);
     file.remove();
 
@@ -219,7 +246,7 @@ void MainWindow::deleteFile(QString nameoffile)
 void MainWindow::readFromFile(QListWidget* NotesList, QString nameoffile)
 {
 
-    nameoffile+=".txt";
+    nameoffile+=fileFormat;
     QFile file (nameoffile);
     if(file.open(QIODevice::ReadOnly))
     {
@@ -235,12 +262,13 @@ void MainWindow::readFromFile(QListWidget* NotesList, QString nameoffile)
         b->setData(Qt::CheckStateRole,0);
         NotesList->addItem(b);
        }
+       file.close();
      }
 }
 void MainWindow::readFromFileNotCheckable(QListWidget* NotesList, QString nameoffile)
 {
 
-    nameoffile+=".txt";
+    nameoffile+=fileFormat;
     QFile file (nameoffile);
     if(file.open(QIODevice::ReadOnly))
     {
@@ -255,12 +283,13 @@ void MainWindow::readFromFileNotCheckable(QListWidget* NotesList, QString nameof
         b->setText(line);
         NotesList->addItem(b);
        }
+       file.close();
      }
 }
 void MainWindow::saveToFile(QString nameOfFile,QListWidget* NotesList)
 {
 
-    nameOfFile+=".txt";
+    nameOfFile+=fileFormat;
 
     QFile file (nameOfFile);
     if(file.open(QIODevice::WriteOnly | QIODevice::Truncate))
@@ -271,16 +300,29 @@ void MainWindow::saveToFile(QString nameOfFile,QListWidget* NotesList)
         QListWidgetItem *item = NotesList->item(i);
                     stream << item->text()<<'\n';
         }
+        file.close();
         }
 }
-void MainWindow::saveToArchive(QListWidgetItem *item)
+//void MainWindow::saveToArchive(QListWidgetItem *item)                       //comment
+//{
+//    QFile file ("archieve.txt");
+//    if(file.open(QIODevice::WriteOnly | QIODevice::Append))
+//    {
+//        QTextStream stream(&file);
+//         stream << item->text()<<'\n';
+//    }
+//}
+
+void MainWindow::saveItem(QListWidgetItem *item, QString nameoffile)
 {
-    QFile file ("archieve.txt");
+    QFile file (nameoffile + fileFormat);
     if(file.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QTextStream stream(&file);
          stream << item->text()<<'\n';
+         file.close();
     }
+
 }
 
 void MainWindow::showNotesFromSelectedGroup()
@@ -290,7 +332,7 @@ void MainWindow::showNotesFromSelectedGroup()
     QListWidget*NotesList = ui->listWidget;
 
     QString line = NotesList2->item(prevIndex)->text();
-    line.resize(line.size()-1);
+    //line.resize(line.size()-1);                             //why???
 
     saveToFile(line, NotesList);
     prevIndex = NotesList2->currentRow();
@@ -298,7 +340,7 @@ void MainWindow::showNotesFromSelectedGroup()
     NotesList->clear();
 
     line = NotesList2->currentItem()->text();
-    line.resize(line.size()-1);
+   // line.resize(line.size()-1);                             //why??
 
     readFromFile(NotesList, line);
 
@@ -312,10 +354,6 @@ void MainWindow::on_lineEdit_editingFinished()
     if(a!="" && a.size()<=30)
     {
 
-//QListView* NotesList = ui->listView;
-//NotesList->model()->insertRow(NotesList->model()->rowCount());
-//int rowindex = NotesList->model()->rowCount()-1;
-//NotesList->model()->setData(NotesList->model()->index(rowindex,0),a);    //string
         QListWidget* NotesList = ui->listWidget;
         QListWidgetItem* b = new QListWidgetItem;
         b->setText(a);
@@ -329,13 +367,14 @@ void MainWindow::on_lineEdit_editingFinished()
         QMessageBox::warning(this,"Error", "You entered more than 30 symbols");
     }
 }
-void MainWindow::createConnections(){
+void MainWindow::createConnections()
+{
     QObject::connect(ui->listWidget, SIGNAL(itemChanged(QListWidgetItem*)),
                      this, SLOT(removeChecked(QListWidgetItem*)));
     QObject::connect(ui->pushButton_2, SIGNAL(released()),this,SLOT(removeSelectedItem()));
     QObject::connect(ui->listWidget_2,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(showNotesFromSelectedGroup()));
 
-    QObject::connect(ui->listWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));//delete
+    QObject::connect(ui->listWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
     QListWidget* NotesList = ui->listWidget_2;
     QAbstractItemDelegate* delegate = NotesList->itemDelegate();
@@ -344,7 +383,7 @@ void MainWindow::createConnections(){
 
 }
 
-void MainWindow::showContextMenu(const QPoint &pos) //delete
+void MainWindow::showContextMenu(const QPoint &pos)
 {
 
     QListWidget* NotesList = ui->listWidget;
@@ -354,7 +393,7 @@ void MainWindow::showContextMenu(const QPoint &pos) //delete
 
     QMenu myMenu;
     myMenu.addAction("Copy To Group", this, SLOT(copyToGroup()));
-   // myMenu.addAction("Move to Group",this,SLOT(moveToGroup()));
+    myMenu.addAction("Move to Group",this,SLOT(moveToGroup()));
 
 
     myMenu.exec(globalPos);
@@ -366,7 +405,7 @@ QListWidget* NotesList = ui->listWidget;
 QListWidgetItem* item = NotesList->currentItem();
 if(item)
 {
-    saveToFile("menu",ui->listWidget_2);
+    saveToFile(NameOfMenu,ui->listWidget_2);
    windowog = new windowofgroups(this);
    windowog->receiveData(item->text(),ui->listWidget_2->currentItem()->text());
    windowog->setModal(true);
@@ -375,20 +414,23 @@ if(item)
 }
 }
 
-//void MainWindow::moveToGroup()
-//{
-//    QListWidget* NotesList = ui->listWidget;
-//    QListWidgetItem* item = NotesList->currentItem();
-//    if(item)
-//    {
-//        saveToFile("menu",ui->listWidget_2);
-//       windowog = new windowofgroups(this);
-//       windowog->receiveData(item->text(),ui->listWidget_2->currentItem()->text());
-//       windowog->setModal(true);
-//        windowog->exec();
+void MainWindow::moveToGroup()
+{
+    QListWidget* NotesList = ui->listWidget;
+    QListWidgetItem* item = NotesList->currentItem();
+    if(item)
+    {
+        saveToFile(NameOfMenu,ui->listWidget_2);
+       windowog = new windowofgroups(this);
+       bool isadded = true;
+       windowog->receiveData(item->text(),ui->listWidget_2->currentItem()->text(), &isadded);
+       windowog->setModal(true);
+       windowog->exec();
 
-//    }
-//}
+       if(isadded)
+           removeSelectedItem(NotesList);
+    }
+}
 
 void MainWindow::changeMenuSelectionBack()
 {
@@ -402,21 +444,22 @@ void MainWindow::removeChecked(QListWidgetItem *item)
         QListWidgetItem * menuitem = ui->listWidget_2->currentItem();
             QString check = menuitem->text().replace("\r","");
             check.shrink_to_fit();
-        if(QString::compare(check,"archieve", Qt::CaseInsensitive))
+        if(QString::compare(check,NameOfArchive, Qt::CaseInsensitive))
         {
-        saveToArchive(item);
+        saveItem(item, NameOfArchive);
         ui->listWidget->removeItemWidget(item);
      delete item;
         }
         else
         {
-            QString nameOfFile="notes.txt";
+            QString nameOfFile=NameOfNotes + fileFormat;
 
             QFile file (nameOfFile);
             if(file.open(QIODevice::WriteOnly | QIODevice::Append))
             {
                 QTextStream stream(&file);
                 stream<<item->text()<<'\n';
+                file.close();
             }
             ui->listWidget->removeItemWidget(item);
          delete item;
@@ -424,7 +467,15 @@ void MainWindow::removeChecked(QListWidgetItem *item)
         }
     }
 }
-
+void MainWindow::removeSelectedItem(QListWidget*NotesList )
+{
+    QListWidgetItem* item = NotesList->currentItem();
+    if(item)
+    {
+    NotesList->removeItemWidget(item);
+ delete item;
+    }
+}
 void MainWindow::removeSelectedItem()
 {
     QListWidget* NotesList = ui->listWidget;
@@ -441,16 +492,18 @@ void MainWindow::removeSelectedItem()
         if(item && NotesList2->currentRow()>1)
         {
             QString line = NotesList2->currentItem()->text();
-            line.resize(line.size()-1);
+           // line.resize(line.size()-1);                                  //why???
             deleteFile(line);
             NotesList->clear();
         NotesList2->removeItemWidget(item);
      delete item;
         NotesList2->setCurrentItem(NotesList2->item(0));
         line = NotesList2->currentItem()->text();
-        line.resize(line.size()-1);
+      //  line.resize(line.size()-1);                                      //why??
         readFromFile(NotesList,line);
         prevIndex = NotesList2->currentRow();
+
+
         }
      }
 }

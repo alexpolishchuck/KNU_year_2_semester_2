@@ -9,9 +9,9 @@ secondwindow::secondwindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QListWidget* NotesList = ui->listWidget;
-    NotesList->setStyleSheet("QListView {font: 75 11pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
+    NotesList->setStyleSheet("QListView {font: 13pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
                              "QListView::item{color:rgb(155, 38, 175);}");
-readFromFile( NotesList, "archieve.txt");
+readFromFile( NotesList, NameOfArchive + fileFormat);
 createConnections();
 }
 
@@ -19,43 +19,48 @@ secondwindow::~secondwindow()
 {
     delete ui;
 }
-QString qspressed1 = "font: 11pt\"Bodoni MT\" ;background-color: rgb(109, 127, 209); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
-QString qsreleased1 = "font: 11pt\"Bodoni MT\" ;background-color: rgb(172, 169, 255); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
 
 void secondwindow::on_pushButton_pressed()
 {
-    ui->pushButton->setStyleSheet(qspressed1);
+    ui->pushButton->setStyleSheet(qspressed);
 
 }
 void secondwindow::on_pushButton_2_pressed()
 {
-    ui->pushButton_2->setStyleSheet(qspressed1);
+    ui->pushButton_2->setStyleSheet(qspressed);
 
 }
 void secondwindow::on_pushButton_3_pressed()
 {
-    ui->pushButton_3->setStyleSheet(qspressed1);
+    ui->pushButton_3->setStyleSheet(qspressed);
 
 }
 void secondwindow::on_pushButton_4_pressed()
 {
-    ui->pushButton_4->setStyleSheet(qspressed1);
+    ui->pushButton_4->setStyleSheet(qspressed);
 }
 void secondwindow::on_pushButton_2_released()
 {
-    ui->pushButton_2->setStyleSheet(qsreleased1);
+    ui->pushButton_2->setStyleSheet(qsreleased);
 }
 void secondwindow::on_pushButton_3_released()
 {
-    ui->pushButton_3->setStyleSheet(qsreleased1);
+    ui->pushButton_3->setStyleSheet(qsreleased);
 }
 void secondwindow::on_pushButton_4_released()
 {
-    ui->pushButton_4->setStyleSheet(qsreleased1);
+    ui->pushButton_4->setStyleSheet(qsreleased);
+
+    QString a = "abcd";
+    QString b = "AbCd";
+    QString c = "abc";
+    qDebug() << QString::compare(a,b,Qt::CaseSensitivity::CaseSensitive);
+    qDebug()<<QString::compare(a,c,Qt::CaseSensitivity::CaseSensitive);
+     qDebug()<<QString::compare(a,b,Qt::CaseSensitivity::CaseInsensitive);
 }
 void secondwindow::on_pushButton_released()
 {
-    ui->pushButton->setStyleSheet(qsreleased1);
+    ui->pushButton->setStyleSheet(qsreleased);
     saveArchive();
     close();
 }
@@ -106,7 +111,7 @@ void secondwindow::removeSelectedItem()
 }
 void secondwindow::moveToFile(QListWidgetItem *item)
 {
-    QFile file ("notes.txt");
+    QFile file (NameOfNotes + fileFormat);
     if(file.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QTextStream stream(&file);
@@ -115,7 +120,7 @@ void secondwindow::moveToFile(QListWidgetItem *item)
 }
 void secondwindow::saveArchive()
 {
-    QFile file ("archieve.txt");
+    QFile file (NameOfArchive + fileFormat);
     if(file.open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
         QTextStream stream(&file);
