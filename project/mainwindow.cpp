@@ -47,7 +47,7 @@ void MainWindow::createfiles()
 {
     QFile f1(this->NameOfMenu + fileFormat);
     if(!f1.exists()){
-        f1.open(QIODevice::WriteOnly);
+        f1.open(QIODevice::WriteOnly);                              //maybe delete
         f1.close();
         QListWidgetItem item;
         item.setText(NameOfNotes);
@@ -85,7 +85,7 @@ void MainWindow::on_pushButton_3_released()
     ui->pushButton_3->setStyleSheet(qsreleased);
 
     changeMenuSelectionBack();
-    QString line = ui->listWidget_2->currentItem()->text();         //saving notes to the file of the activated list
+    QString line = ui->listWidget_2->currentItem()->toolTip();         //saving notes to the file of the activated list
    // line.resize(line.size()-1);                                    //why???
     saveToFile(line,NotesList);
 
@@ -124,7 +124,7 @@ void MainWindow::on_pushButton_released()
     ui->pushButton->setStyleSheet(qsreleased);
 
     changeMenuSelectionBack();
-    QString line = ui->listWidget_2->currentItem()->text();
+    QString line = ui->listWidget_2->currentItem()->toolTip();
    // line.resize(line.size()-1);                                    //why???
 
 
@@ -148,7 +148,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
             event->accept();
         }
         else {
-            QString filename = ui->listWidget_2->currentItem()->text().replace("\r","");
+            QString filename = ui->listWidget_2->currentItem()->toolTip().replace("\r","");
             filename.shrink_to_fit();
             saveToFile(filename,ui->listWidget);
 
@@ -189,8 +189,13 @@ void MainWindow::editNameOfGroup()           //To do : change editing
         }
 
        // name.push_back(' ');                                      //why??
-        item->setText(name);
-        isNameValid();
+    int width = ui->listWidget_2->width()/2;
+    QString shortname = QFontMetrics(ui->listWidget_2->font()).elidedText(name,Qt::ElideRight,width,0);
+    item->setText(shortname);
+    item->setToolTip(name);
+    isNameValid();
+
+
 
     }
 }
@@ -199,7 +204,7 @@ void MainWindow::isNameValid()
 {
 
      QListWidgetItem* item = ui->listWidget_2->item(ui->listWidget_2->count()-1);
-     QString name = item->text();
+
     // name.resize(name.size()-1);                                                 //why????
 //    QFile file (NameOfMenu + fileFormat);
 
@@ -225,7 +230,7 @@ void MainWindow::isNameValid()
      for(int i=0; i<count; i++)
      {
 
-         if(!QString::compare(ui->listWidget_2->item(i)->text(),name,Qt::CaseSensitivity::CaseSensitive))
+         if(!QString::compare(ui->listWidget_2->item(i)->toolTip(),item->toolTip(),Qt::CaseSensitivity::CaseSensitive))
          {
              removeLastGroupItem();                      //delete
              return;
@@ -259,6 +264,7 @@ void MainWindow::readFromFile(QListWidget* NotesList, QString nameoffile)
 
         QListWidgetItem* b = new QListWidgetItem;
         b->setText(line);
+
         b->setData(Qt::CheckStateRole,0);
         NotesList->addItem(b);
        }
@@ -280,7 +286,10 @@ void MainWindow::readFromFileNotCheckable(QListWidget* NotesList, QString nameof
             line.resize(line.size()-1);
 
         QListWidgetItem* b = new QListWidgetItem;
-        b->setText(line);
+        int width = NotesList->width()/2;
+       QString shortline = QFontMetrics(NotesList->font()).elidedText(line,Qt::ElideRight,width,0);
+        b->setText(shortline);
+        b->setToolTip(line);
         NotesList->addItem(b);
        }
        file.close();
@@ -298,7 +307,10 @@ void MainWindow::saveToFile(QString nameOfFile,QListWidget* NotesList)
         for(int i=0; i<NotesList->count(); i++)
         {
         QListWidgetItem *item = NotesList->item(i);
+                    if(!item->toolTip().size())
                     stream << item->text()<<'\n';
+                    else
+                        stream << item->toolTip()<<'\n';
         }
         file.close();
         }
@@ -331,7 +343,7 @@ void MainWindow::showNotesFromSelectedGroup()
     QListWidget*NotesList2 = ui->listWidget_2;
     QListWidget*NotesList = ui->listWidget;
 
-    QString line = NotesList2->item(prevIndex)->text();
+    QString line = NotesList2->item(prevIndex)->toolTip();
     //line.resize(line.size()-1);                             //why???
 
     saveToFile(line, NotesList);
@@ -339,7 +351,7 @@ void MainWindow::showNotesFromSelectedGroup()
 
     NotesList->clear();
 
-    line = NotesList2->currentItem()->text();
+    line = NotesList2->currentItem()->toolTip();
    // line.resize(line.size()-1);                             //why??
 
     readFromFile(NotesList, line);
@@ -407,7 +419,7 @@ if(item)
 {
     saveToFile(NameOfMenu,ui->listWidget_2);
    windowog = new windowofgroups(this);
-   windowog->receiveData(item->text(),ui->listWidget_2->currentItem()->text());
+   windowog->receiveData(item->text(),ui->listWidget_2->currentItem()->toolTip());
    windowog->setModal(true);
     windowog->exec();
 
@@ -422,8 +434,8 @@ void MainWindow::moveToGroup()
     {
         saveToFile(NameOfMenu,ui->listWidget_2);
        windowog = new windowofgroups(this);
-       bool isadded = true;
-       windowog->receiveData(item->text(),ui->listWidget_2->currentItem()->text(), &isadded);
+       bool isadded = false;
+       windowog->receiveData(item->text(),ui->listWidget_2->currentItem()->toolTip(), &isadded);
        windowog->setModal(true);
        windowog->exec();
 
@@ -442,7 +454,7 @@ void MainWindow::removeChecked(QListWidgetItem *item)
     if(item->checkState() == Qt::Checked)
     {
         QListWidgetItem * menuitem = ui->listWidget_2->currentItem();
-            QString check = menuitem->text().replace("\r","");
+            QString check = menuitem->toolTip().replace("\r","");
             check.shrink_to_fit();
         if(QString::compare(check,NameOfArchive, Qt::CaseInsensitive))
         {
@@ -491,14 +503,14 @@ void MainWindow::removeSelectedItem()
         item = NotesList2->currentItem();
         if(item && NotesList2->currentRow()>1)
         {
-            QString line = NotesList2->currentItem()->text();
+            QString line = NotesList2->currentItem()->toolTip();
            // line.resize(line.size()-1);                                  //why???
             deleteFile(line);
             NotesList->clear();
         NotesList2->removeItemWidget(item);
      delete item;
         NotesList2->setCurrentItem(NotesList2->item(0));
-        line = NotesList2->currentItem()->text();
+        line = NotesList2->currentItem()->toolTip();
       //  line.resize(line.size()-1);                                      //why??
         readFromFile(NotesList,line);
         prevIndex = NotesList2->currentRow();

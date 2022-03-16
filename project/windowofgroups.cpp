@@ -38,7 +38,10 @@ void windowofgroups::readFromFileNotCheckable(QListWidget* NotesList, QString na
             line.resize(line.size()-1);
 
         QListWidgetItem* b = new QListWidgetItem;
-        b->setText(line);
+        int width = NotesList->width()/2;
+        QString shortline = QFontMetrics(NotesList->font()).elidedText(line,Qt::ElideRight,width,0);
+         b->setText(shortline);
+         b->setToolTip(line);
         NotesList->addItem(b);
        }
      }
@@ -60,9 +63,9 @@ void windowofgroups::on_pushButton_released()
      ui->pushButton->setStyleSheet(qsreleased);
      QListWidget* NotesList = ui->listWidget;
      QListWidgetItem* item = NotesList->currentItem();
-     if(item && item->text()!=curMenu)
+     if(item && item->toolTip()!=curMenu)
      {
-         QString nameoffile = item->text();
+         QString nameoffile = item->toolTip();
          //nameoffile.resize(nameoffile.size()-1);                              //why???
 
         addtofile(nameoffile);
@@ -94,4 +97,23 @@ void windowofgroups::addtofile(QString nameoffile)
         file.close();
     }
 
+}
+
+void windowofgroups::closeEvent(QCloseEvent *event)
+{
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this,"Exit",
+                                                                 tr("Do you want exit?"),
+                                                                 QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+                                                                 QMessageBox::Yes);
+        if (resBtn == QMessageBox::Cancel)
+        {
+            event->ignore();
+        }
+        else if(resBtn == QMessageBox::No)
+        {
+            event->ignore();
+        }
+        else {
+            event->accept();
+        }
 }

@@ -49,14 +49,8 @@ void secondwindow::on_pushButton_3_released()
 }
 void secondwindow::on_pushButton_4_released()
 {
-    ui->pushButton_4->setStyleSheet(qsreleased);
 
-    QString a = "abcd";
-    QString b = "AbCd";
-    QString c = "abc";
-    qDebug() << QString::compare(a,b,Qt::CaseSensitivity::CaseSensitive);
-    qDebug()<<QString::compare(a,c,Qt::CaseSensitivity::CaseSensitive);
-     qDebug()<<QString::compare(a,b,Qt::CaseSensitivity::CaseInsensitive);
+     ui->pushButton_4->setStyleSheet(qsreleased);
 }
 void secondwindow::on_pushButton_released()
 {

@@ -43,6 +43,8 @@ private:
     QString qsreleased = "font: 11pt\"Bodoni MT\" ;background-color: rgb(172, 169, 255); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
 
     bool* isadded = nullptr;
+
+    void closeEvent(QCloseEvent *event) override;
 };
 
 #endif // WINDOWOFGROUPS_H
