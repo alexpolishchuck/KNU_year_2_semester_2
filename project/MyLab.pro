@@ -9,12 +9,14 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    editinghistory.cpp \
     main.cpp \
     mainwindow.cpp \
     secondwindow.cpp \
     windowofgroups.cpp
 
 HEADERS += \
+    editinghistory.h \
     mainwindow.h \
     secondwindow.h \
     windowofgroups.h

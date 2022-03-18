@@ -3,7 +3,8 @@
 #include "QMessageBox"
 #include <QFile>
 #include <QCloseEvent>
-
+#include "editinghistory.h"
+#include <QShortcut>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,8 +12,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    historyOperator = new caretaker;          //for saving history
+
 
     createfiles();
+
+    keyCombos.push_back(new QShortcut(QKeySequence(tr("Ctrl+Z")),this));
 
     QListWidget* NotesList = ui->listWidget;
     NotesList->setStyleSheet("QListView {font: 13pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
@@ -47,7 +52,7 @@ void MainWindow::createfiles()
 {
     QFile f1(this->NameOfMenu + fileFormat);
     if(!f1.exists()){
-        f1.open(QIODevice::WriteOnly);                              //maybe delete
+        f1.open(QIODevice::WriteOnly);
         f1.close();
         QListWidgetItem item;
         item.setText(NameOfNotes);
@@ -86,7 +91,6 @@ void MainWindow::on_pushButton_3_released()
 
     changeMenuSelectionBack();
     QString line = ui->listWidget_2->currentItem()->toolTip();         //saving notes to the file of the activated list
-   // line.resize(line.size()-1);                                    //why???
     saveToFile(line,NotesList);
 
 
@@ -112,8 +116,9 @@ void MainWindow::on_pushButton_4_released()
     NotesList->addItem(item);
 
   item->setFlags(item->flags()|Qt::ItemIsEditable);
+  item->setFont(NotesList->font());
   NotesList->editItem(item);
-   item->setFlags(item->flags()& ~Qt::ItemIsEditable);
+  item->setFlags(item->flags()& ~Qt::ItemIsEditable);
 
 
 
@@ -125,8 +130,6 @@ void MainWindow::on_pushButton_released()
 
     changeMenuSelectionBack();
     QString line = ui->listWidget_2->currentItem()->toolTip();
-   // line.resize(line.size()-1);                                    //why???
-
 
     saveToFile(line,ui->listWidget);
     saveToFile(NameOfMenu,ui->listWidget_2);
@@ -161,26 +164,24 @@ void MainWindow::removeLastGroupItem()
 
     QMessageBox::warning(this,"Error", "Group with this name already exists or the name is empty");
     QListWidgetItem* item = ui->listWidget_2->item(ui->listWidget_2->count()-1);
-    ui->listWidget_2->removeItemWidget(item);
-    delete item;
+//    ui->listWidget_2->removeItemWidget(item);
+//    delete item;
+    deleteItem(item,ui->listWidget_2);
 
 }
-void MainWindow::editNameOfGroup()           //To do : change editing
+void MainWindow::editNameOfGroup()
 {
 
     QListWidgetItem* item = ui->listWidget_2->item(ui->listWidget_2->count()-1);
 
     QString name = item->text();
-
+    name = name.trimmed();
     if(name.size()==0)
     {  
         removeLastGroupItem();
     }
     else
     {
-    //name.replace("_"," ");
-    name = name.trimmed();
-    //name.replace(" ","_");
     for(int i=0; i<name.size(); i++)
         if(name[i] == '\\' || name[i] =='/' || name[i] ==':' || name[i] =='?' || name[i] =='"' || name[i] =='>' || name[i] =='<' || name[i] =='|')
         {
@@ -188,7 +189,7 @@ void MainWindow::editNameOfGroup()           //To do : change editing
            return;
         }
 
-       // name.push_back(' ');                                      //why??
+
     int width = ui->listWidget_2->width()/2;
     QString shortname = QFontMetrics(ui->listWidget_2->font()).elidedText(name,Qt::ElideRight,width,0);
     item->setText(shortname);
@@ -205,34 +206,13 @@ void MainWindow::isNameValid()
 
      QListWidgetItem* item = ui->listWidget_2->item(ui->listWidget_2->count()-1);
 
-    // name.resize(name.size()-1);                                                 //why????
-//    QFile file (NameOfMenu + fileFormat);
-
-//    if(file.open(QIODevice::ReadOnly))
-//    {
-//        while(!file.atEnd())
-//        {
-//            QString line = file.readLine();
-//            if(line[line.size()-1]=='\n')
-//               //line.resize(line.size()-2);
-//                line.resize(line.size()-1);
-//            if(!QString::compare(line,name,Qt::CaseSensitivity::CaseSensitive))
-//            {
-
-//                removeLastGroupItem();                      //delete
-//                return;
-//            }
-//        }
-//        file.close();
-//    }
-
      int count = ui->listWidget_2->count()-1;
      for(int i=0; i<count; i++)
      {
 
          if(!QString::compare(ui->listWidget_2->item(i)->toolTip(),item->toolTip(),Qt::CaseSensitivity::CaseSensitive))
          {
-             removeLastGroupItem();                      //delete
+             removeLastGroupItem();
              return;
          }
      }
@@ -315,15 +295,7 @@ void MainWindow::saveToFile(QString nameOfFile,QListWidget* NotesList)
         file.close();
         }
 }
-//void MainWindow::saveToArchive(QListWidgetItem *item)                       //comment
-//{
-//    QFile file ("archieve.txt");
-//    if(file.open(QIODevice::WriteOnly | QIODevice::Append))
-//    {
-//        QTextStream stream(&file);
-//         stream << item->text()<<'\n';
-//    }
-//}
+
 
 void MainWindow::saveItem(QListWidgetItem *item, QString nameoffile)
 {
@@ -337,6 +309,43 @@ void MainWindow::saveItem(QListWidgetItem *item, QString nameoffile)
 
 }
 
+void MainWindow::deleteItem(QListWidgetItem *item, QListWidget* NotesList)
+{
+    NotesList->removeItemWidget(item);
+    if(NotesList == ui->listWidget)
+    emit  itemIsDeleted(item->text());
+    delete item;
+
+}
+void MainWindow::deleteItemNoSignal(QString text)
+{
+//    QListWidgetItem* item = new QListWidgetItem;
+//    item->setText(text);
+//    item->setData(Qt::CheckStateRole,0);
+
+    int count= ui->listWidget->count();
+    for(int i=0; i<count;i ++)
+        if(!QString::compare(text,ui->listWidget->item(i)->text(),Qt::CaseSensitivity::CaseSensitive))
+        {
+            QListWidgetItem* item = ui->listWidget->item(i);
+            ui->listWidget->removeItemWidget(item);
+            delete item;
+            break;
+        }
+
+   // qDebug()<<"deleteItemNoSignal";
+
+}
+
+void MainWindow::addItemNoSignal(QString text)
+{
+    QListWidgetItem* item = new QListWidgetItem;
+    item->setText(text);
+    item->setData(Qt::CheckStateRole,0);
+
+    ui->listWidget->addItem(item);
+}
+
 void MainWindow::showNotesFromSelectedGroup()
 {
 
@@ -344,15 +353,17 @@ void MainWindow::showNotesFromSelectedGroup()
     QListWidget*NotesList = ui->listWidget;
 
     QString line = NotesList2->item(prevIndex)->toolTip();
-    //line.resize(line.size()-1);                             //why???
+
 
     saveToFile(line, NotesList);
     prevIndex = NotesList2->currentRow();
 
     NotesList->clear();
 
+    delete historyOperator;
+    historyOperator = new caretaker;
+
     line = NotesList2->currentItem()->toolTip();
-   // line.resize(line.size()-1);                             //why??
 
     readFromFile(NotesList, line);
 
@@ -370,7 +381,10 @@ void MainWindow::on_lineEdit_editingFinished()
         QListWidgetItem* b = new QListWidgetItem;
         b->setText(a);
         b->setData(Qt::CheckStateRole,0);
+
         NotesList->addItem(b);
+        emit itemIsAdded(b->text());
+
 
     }
     else
@@ -383,7 +397,9 @@ void MainWindow::createConnections()
 {
     QObject::connect(ui->listWidget, SIGNAL(itemChanged(QListWidgetItem*)),
                      this, SLOT(removeChecked(QListWidgetItem*)));
+
     QObject::connect(ui->pushButton_2, SIGNAL(released()),this,SLOT(removeSelectedItem()));
+
     QObject::connect(ui->listWidget_2,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(showNotesFromSelectedGroup()));
 
     QObject::connect(ui->listWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
@@ -392,7 +408,16 @@ void MainWindow::createConnections()
     QAbstractItemDelegate* delegate = NotesList->itemDelegate();
     QObject::connect(delegate,SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)),this,SLOT(editNameOfGroup()));
 
+    QObject::connect(this,SIGNAL(itemIsAdded(QString)),historyOperator,SLOT(backUpAdded(QString)));
+    QObject::connect(this,SIGNAL(itemIsDeleted(QString)),historyOperator,SLOT(backUpDeleted(QString)));
 
+    QObject::connect(historyOperator,SIGNAL(addDeleted(QString)),this,SLOT(addItemNoSignal(QString)));
+
+    QObject::connect(historyOperator,SIGNAL(deleteAdded(QString)),this,SLOT(deleteItemNoSignal(QString)));
+
+    QObject::connect(keyCombos[0],SIGNAL(activated()),historyOperator,SLOT(undo()));
+
+    //QObject::connect(historyOperator,SIGNAL(previousText(QString)),this,SLOT(setLineEditText(QString)));
 }
 
 void MainWindow::showContextMenu(const QPoint &pos)
@@ -459,22 +484,17 @@ void MainWindow::removeChecked(QListWidgetItem *item)
         if(QString::compare(check,NameOfArchive, Qt::CaseInsensitive))
         {
         saveItem(item, NameOfArchive);
-        ui->listWidget->removeItemWidget(item);
-     delete item;
+//        ui->listWidget->removeItemWidget(item);
+//     delete item;
+        deleteItem(item, ui->listWidget);
         }
         else
         {
-            QString nameOfFile=NameOfNotes + fileFormat;
 
-            QFile file (nameOfFile);
-            if(file.open(QIODevice::WriteOnly | QIODevice::Append))
-            {
-                QTextStream stream(&file);
-                stream<<item->text()<<'\n';
-                file.close();
-            }
-            ui->listWidget->removeItemWidget(item);
-         delete item;
+            saveItem(item,NameOfNotes);
+            //        ui->listWidget->removeItemWidget(item);
+            //     delete item;
+                    deleteItem(item, ui->listWidget);
 
         }
     }
@@ -484,8 +504,10 @@ void MainWindow::removeSelectedItem(QListWidget*NotesList )
     QListWidgetItem* item = NotesList->currentItem();
     if(item)
     {
-    NotesList->removeItemWidget(item);
- delete item;
+//    NotesList->removeItemWidget(item);
+// delete item;
+
+            deleteItem(item,NotesList);
     }
 }
 void MainWindow::removeSelectedItem()
@@ -494,8 +516,9 @@ void MainWindow::removeSelectedItem()
     QListWidgetItem* item = NotesList->currentItem();
     if(item)
     {
-    NotesList->removeItemWidget(item);
- delete item;
+//    NotesList->removeItemWidget(item);
+// delete item;
+     deleteItem(item,NotesList);
     }
     else
      {
@@ -504,14 +527,16 @@ void MainWindow::removeSelectedItem()
         if(item && NotesList2->currentRow()>1)
         {
             QString line = NotesList2->currentItem()->toolTip();
-           // line.resize(line.size()-1);                                  //why???
+
             deleteFile(line);
             NotesList->clear();
-        NotesList2->removeItemWidget(item);
-     delete item;
+
+//        NotesList2->removeItemWidget(item);
+//     delete item;
+         deleteItem(item,NotesList2);
+
         NotesList2->setCurrentItem(NotesList2->item(0));
         line = NotesList2->currentItem()->toolTip();
-      //  line.resize(line.size()-1);                                      //why??
         readFromFile(NotesList,line);
         prevIndex = NotesList2->currentRow();
 
@@ -519,3 +544,5 @@ void MainWindow::removeSelectedItem()
         }
      }
 }
+
+

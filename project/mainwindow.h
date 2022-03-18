@@ -8,6 +8,10 @@
 #include "secondwindow.h"
 #include "windowofgroups.h"
 #include <QCloseEvent>
+#include "editinghistory.h"
+#include <QVector>
+#include <QShortcut>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,7 +25,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
 
+ void deleteItemNoSignal(QString text);
+
+  void addItemNoSignal(QString text);
 
 private slots:
    // void on_pushButton_clicked();
@@ -54,16 +62,17 @@ private slots:
 
     void saveItem(QListWidgetItem *item, QString nameoffile);
 
+    void deleteItem(QListWidgetItem *item, QListWidget* NotesList);
+
     void removeSelectedItem();
 
-    void removeSelectedItem(QListWidget* );
+    void removeSelectedItem(QListWidget* );                                    //overloaded
 
     void readFromFileNotCheckable(QListWidget* NotesList, QString nameoffile);
 
     void showNotesFromSelectedGroup();
 
     void changeMenuSelectionBack();
-
 
     void isNameValid();
 
@@ -82,12 +91,23 @@ private slots:
 signals:
     void sendDataToAnotherWindow(QString);
 
+   // void itemIsAdded(QListWidgetItem*);
+
+    void itemIsAdded(QString);
+
+    void itemIsDeleted(QString);
+
 private:
+
     Ui::MainWindow *ui;
 
     secondwindow* secwindow;
 
-windowofgroups* windowog;
+    windowofgroups* windowog;
+
+    caretaker* historyOperator;
+
+    QVector<QShortcut*> keyCombos;
 
     int prevIndex;
 
@@ -96,6 +116,7 @@ void createConnections();
 void deleteFile(QString);
 
 void closeEvent (QCloseEvent *event) override;
+
 
 QString qspressed = "font: 11pt\"Bodoni MT\" ;background-color: rgb(109, 127, 209); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
 
