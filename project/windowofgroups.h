@@ -44,7 +44,7 @@ private:
 
     bool* isadded = nullptr;
 
-    void closeEvent(QCloseEvent *event) override;
+    //void closeEvent(QCloseEvent *event) override;
 };
 
 #endif // WINDOWOFGROUPS_H

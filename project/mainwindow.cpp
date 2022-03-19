@@ -3,7 +3,8 @@
 #include "QMessageBox"
 #include <QFile>
 #include <QCloseEvent>
-#include "editinghistory.h"
+//#include "editinghistory.h"
+#include <editinghistory.h>
 #include <QShortcut>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -12,12 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    historyOperator = new caretaker;          //for saving history
+    historyOperator = new caretaker(this);          //for saving history
 
 
     createfiles();
 
-    keyCombos.push_back(new QShortcut(QKeySequence(tr("Ctrl+Z")),this));
+  //  keyCombos.push_back(new QShortcut(QKeySequence(tr("Ctrl+Z")),this));
 
     QListWidget* NotesList = ui->listWidget;
     NotesList->setStyleSheet("QListView {font: 13pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
@@ -44,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 MainWindow::~MainWindow()
 {
+    delete historyOperator;
     delete ui;
 }
 
@@ -98,7 +100,8 @@ void MainWindow::on_pushButton_3_released()
     secwindow = new secondwindow(this);                    //showing archive
     secwindow->setModal(true);
     secwindow->exec();
-
+    //delete secwindow;
+    emit anotherWindowIsClosed();
     NotesList->clear();
     readFromFile(NotesList, line);                    //showing the main list
 }
@@ -131,7 +134,7 @@ void MainWindow::on_pushButton_released()
     changeMenuSelectionBack();
     QString line = ui->listWidget_2->currentItem()->toolTip();
 
-    saveToFile(line,ui->listWidget);
+   // saveToFile(line,ui->listWidget);
     saveToFile(NameOfMenu,ui->listWidget_2);
     QApplication::quit();
 }
@@ -164,8 +167,6 @@ void MainWindow::removeLastGroupItem()
 
     QMessageBox::warning(this,"Error", "Group with this name already exists or the name is empty");
     QListWidgetItem* item = ui->listWidget_2->item(ui->listWidget_2->count()-1);
-//    ui->listWidget_2->removeItemWidget(item);
-//    delete item;
     deleteItem(item,ui->listWidget_2);
 
 }
@@ -313,37 +314,37 @@ void MainWindow::deleteItem(QListWidgetItem *item, QListWidget* NotesList)
 {
     NotesList->removeItemWidget(item);
     if(NotesList == ui->listWidget)
-    emit  itemIsDeleted(item->text());
+    emit  itemIsDeleted(item->text(), NotesList->row(item));                                                     //change
     delete item;
 
 }
-void MainWindow::deleteItemNoSignal(QString text)
+void MainWindow::deleteItemNoSignal(QString text, uint _id)
 {
-//    QListWidgetItem* item = new QListWidgetItem;
-//    item->setText(text);
-//    item->setData(Qt::CheckStateRole,0);
 
-    int count= ui->listWidget->count();
-    for(int i=0; i<count;i ++)
-        if(!QString::compare(text,ui->listWidget->item(i)->text(),Qt::CaseSensitivity::CaseSensitive))
-        {
-            QListWidgetItem* item = ui->listWidget->item(i);
-            ui->listWidget->removeItemWidget(item);
-            delete item;
-            break;
-        }
 
-   // qDebug()<<"deleteItemNoSignal";
+//    int count= ui->listWidget->count();
+//    for(int i=0; i<count;i ++)
+//        if(!QString::compare(text,ui->listWidget->item(i)->text(),Qt::CaseSensitivity::CaseSensitive))
+//        {
+//            QListWidgetItem* item = ui->listWidget->item(i);
+//            ui->listWidget->removeItemWidget(item);
+//            delete item;
+//            break;
+//        }
+
+   QListWidgetItem * item = ui->listWidget->item(_id);
+   ui->listWidget->removeItemWidget(item);
+   delete item;
 
 }
 
-void MainWindow::addItemNoSignal(QString text)
+void MainWindow::addItemNoSignal(QString text, uint _id)
 {
     QListWidgetItem* item = new QListWidgetItem;
     item->setText(text);
     item->setData(Qt::CheckStateRole,0);
 
-    ui->listWidget->addItem(item);
+    ui->listWidget->insertItem(_id,item);
 }
 
 void MainWindow::showNotesFromSelectedGroup()
@@ -361,7 +362,8 @@ void MainWindow::showNotesFromSelectedGroup()
     NotesList->clear();
 
     delete historyOperator;
-    historyOperator = new caretaker;
+    historyOperator = new caretaker(this);
+
 
     line = NotesList2->currentItem()->toolTip();
 
@@ -378,12 +380,12 @@ void MainWindow::on_lineEdit_editingFinished()
     {
 
         QListWidget* NotesList = ui->listWidget;
-        QListWidgetItem* b = new QListWidgetItem;
-        b->setText(a);
-        b->setData(Qt::CheckStateRole,0);
+        QListWidgetItem* item = new QListWidgetItem;
+        item->setText(a);
+        item->setData(Qt::CheckStateRole,0);
 
-        NotesList->addItem(b);
-        emit itemIsAdded(b->text());
+        NotesList->addItem(item);
+        emit itemIsAdded(item->text(),NotesList->row(item));
 
 
     }
@@ -404,20 +406,12 @@ void MainWindow::createConnections()
 
     QObject::connect(ui->listWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
+    QObject::connect(this, SIGNAL(anotherWindowIsClosed()),this,SLOT(recreateHistoryOperator()));
+
     QListWidget* NotesList = ui->listWidget_2;
     QAbstractItemDelegate* delegate = NotesList->itemDelegate();
     QObject::connect(delegate,SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)),this,SLOT(editNameOfGroup()));
 
-    QObject::connect(this,SIGNAL(itemIsAdded(QString)),historyOperator,SLOT(backUpAdded(QString)));
-    QObject::connect(this,SIGNAL(itemIsDeleted(QString)),historyOperator,SLOT(backUpDeleted(QString)));
-
-    QObject::connect(historyOperator,SIGNAL(addDeleted(QString)),this,SLOT(addItemNoSignal(QString)));
-
-    QObject::connect(historyOperator,SIGNAL(deleteAdded(QString)),this,SLOT(deleteItemNoSignal(QString)));
-
-    QObject::connect(keyCombos[0],SIGNAL(activated()),historyOperator,SLOT(undo()));
-
-    //QObject::connect(historyOperator,SIGNAL(previousText(QString)),this,SLOT(setLineEditText(QString)));
 }
 
 void MainWindow::showContextMenu(const QPoint &pos)
@@ -447,7 +441,8 @@ if(item)
    windowog->receiveData(item->text(),ui->listWidget_2->currentItem()->toolTip());
    windowog->setModal(true);
     windowog->exec();
-
+    //delete windowog;
+ emit anotherWindowIsClosed();
 }
 }
 
@@ -463,6 +458,8 @@ void MainWindow::moveToGroup()
        windowog->receiveData(item->text(),ui->listWidget_2->currentItem()->toolTip(), &isadded);
        windowog->setModal(true);
        windowog->exec();
+      emit anotherWindowIsClosed();
+      // delete windowog;
 
        if(isadded)
            removeSelectedItem(NotesList);
@@ -484,18 +481,12 @@ void MainWindow::removeChecked(QListWidgetItem *item)
         if(QString::compare(check,NameOfArchive, Qt::CaseInsensitive))
         {
         saveItem(item, NameOfArchive);
-//        ui->listWidget->removeItemWidget(item);
-//     delete item;
         deleteItem(item, ui->listWidget);
         }
         else
         {
-
             saveItem(item,NameOfNotes);
-            //        ui->listWidget->removeItemWidget(item);
-            //     delete item;
-                    deleteItem(item, ui->listWidget);
-
+            deleteItem(item, ui->listWidget);
         }
     }
 }
@@ -545,4 +536,8 @@ void MainWindow::removeSelectedItem()
      }
 }
 
-
+void MainWindow::recreateHistoryOperator()
+{
+    delete historyOperator;
+    historyOperator = new caretaker(this);
+}

@@ -99,21 +99,21 @@ void windowofgroups::addtofile(QString nameoffile)
 
 }
 
-void windowofgroups::closeEvent(QCloseEvent *event)
-{
-    QMessageBox::StandardButton resBtn = QMessageBox::question( this,"Exit",
-                                                                 tr("Do you want exit?"),
-                                                                 QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
-                                                                 QMessageBox::Yes);
-        if (resBtn == QMessageBox::Cancel)
-        {
-            event->ignore();
-        }
-        else if(resBtn == QMessageBox::No)
-        {
-            event->ignore();
-        }
-        else {
-            event->accept();
-        }
-}
+//void windowofgroups::closeEvent(QCloseEvent *event)
+//{
+//    QMessageBox::StandardButton resBtn = QMessageBox::question( this,"Exit",
+//                                                                 tr("Do you want exit?"),
+//                                                                 QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+//                                                                 QMessageBox::Yes);
+//        if (resBtn == QMessageBox::Cancel)
+//        {
+//            event->ignore();
+//        }
+//        else if(resBtn == QMessageBox::No)
+//        {
+//            event->ignore();
+//        }
+//        else {
+//            event->accept();
+//        }
+//}

@@ -7,6 +7,8 @@ secondwindow::secondwindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::secondwindow)
 {
+    historyOperator = new caretaker(this);
+
     ui->setupUi(this);
     QListWidget* NotesList = ui->listWidget;
     NotesList->setStyleSheet("QListView {font: 13pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
@@ -17,7 +19,9 @@ createConnections();
 
 secondwindow::~secondwindow()
 {
+     delete historyOperator;
     delete ui;
+
 }
 
 void secondwindow::on_pushButton_pressed()
@@ -30,28 +34,12 @@ void secondwindow::on_pushButton_2_pressed()
     ui->pushButton_2->setStyleSheet(qspressed);
 
 }
-void secondwindow::on_pushButton_3_pressed()
-{
-    ui->pushButton_3->setStyleSheet(qspressed);
 
-}
-void secondwindow::on_pushButton_4_pressed()
-{
-    ui->pushButton_4->setStyleSheet(qspressed);
-}
 void secondwindow::on_pushButton_2_released()
 {
     ui->pushButton_2->setStyleSheet(qsreleased);
 }
-void secondwindow::on_pushButton_3_released()
-{
-    ui->pushButton_3->setStyleSheet(qsreleased);
-}
-void secondwindow::on_pushButton_4_released()
-{
 
-     ui->pushButton_4->setStyleSheet(qsreleased);
-}
 void secondwindow::on_pushButton_released()
 {
     ui->pushButton->setStyleSheet(qsreleased);
@@ -89,6 +77,7 @@ void secondwindow::createConnections(){
 void secondwindow::removeChecked(QListWidgetItem *item){
     if(item->checkState() == Qt::Checked){
         moveToFile(item);
+         emit itemIsDeleted(item->text(),ui->listWidget->row(item));
         ui->listWidget->removeItemWidget(item);
      delete item;
     }
@@ -99,6 +88,7 @@ void secondwindow::removeSelectedItem()
     QListWidgetItem* item = NotesList->currentItem();
     if(item)
     {
+        emit itemIsDeleted(item->text(),NotesList->row(item));
     ui->listWidget->removeItemWidget(item);
  delete item;
     }
@@ -145,4 +135,18 @@ void secondwindow::closeEvent(QCloseEvent *event)
 
             event->accept();
         }
+}
+
+void secondwindow::addItemNoSignal(QString text, uint _id)
+{
+    QListWidgetItem* item = new QListWidgetItem;
+    item->setText(text);
+    item->setData(Qt::CheckStateRole,0);
+
+    ui->listWidget->insertItem(_id,item);
+}
+
+void secondwindow::deleteItemNoSignal(QString text, uint _id)
+{
+
 }

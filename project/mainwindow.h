@@ -8,16 +8,17 @@
 #include "secondwindow.h"
 #include "windowofgroups.h"
 #include <QCloseEvent>
-#include "editinghistory.h"
+//#include "editinghistory.h"
 #include <QVector>
 #include <QShortcut>
+#include <editinghistory.h>
 
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public originator
 {
     Q_OBJECT
 
@@ -27,9 +28,9 @@ public:
 
 public slots:
 
- void deleteItemNoSignal(QString text);
+ void deleteItemNoSignal(QString text, uint _id) override;
 
-  void addItemNoSignal(QString text);
+  void addItemNoSignal(QString text, uint _id) override ;
 
 private slots:
    // void on_pushButton_clicked();
@@ -88,14 +89,18 @@ private slots:
 
     void moveToGroup();
 
+    void recreateHistoryOperator();
+
 signals:
     void sendDataToAnotherWindow(QString);
 
    // void itemIsAdded(QListWidgetItem*);
 
-    void itemIsAdded(QString);
+    void itemIsAdded(QString,uint);
 
-    void itemIsDeleted(QString);
+    void itemIsDeleted(QString, uint);
+
+    void anotherWindowIsClosed();
 
 private:
 
@@ -107,7 +112,7 @@ private:
 
     caretaker* historyOperator;
 
-    QVector<QShortcut*> keyCombos;
+   // QVector<QShortcut*> keyCombos;
 
     int prevIndex;
 
