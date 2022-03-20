@@ -12,7 +12,7 @@
 #include <QVector>
 #include <QShortcut>
 #include <editinghistory.h>
-#include "filereader.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,6 +33,7 @@ public slots:
   void addItemNoSignal(QString text, uint _id) override ;
 
 private slots:
+   // void on_pushButton_clicked();
 
     void on_pushButton_pressed();
 
@@ -56,6 +57,10 @@ private slots:
 
     void saveToFile(QString,QListWidget* NotesList);
 
+    void readFromFile( QListWidget*, QString);
+
+   // void saveToArchive(QListWidgetItem *item);
+
     void saveItem(QListWidgetItem *item, QString nameoffile);
 
     void deleteItem(QListWidgetItem *item, QListWidget* NotesList);
@@ -63,6 +68,8 @@ private slots:
     void removeSelectedItem();
 
     void removeSelectedItem(QListWidget* );                                    //overloaded
+
+    void readFromFileNotCheckable(QListWidget* NotesList, QString nameoffile);
 
     void showNotesFromSelectedGroup();
 
@@ -87,6 +94,8 @@ private slots:
 signals:
     void sendDataToAnotherWindow(QString);
 
+   // void itemIsAdded(QListWidgetItem*);
+
     void itemIsAdded(QString,uint);
 
     void itemIsDeleted(QString, uint);
@@ -103,7 +112,7 @@ private:
 
     caretaker* historyOperator;
 
-    filereader* fr;
+   // QVector<QShortcut*> keyCombos;
 
     int prevIndex;
 
@@ -124,5 +133,4 @@ QString const NameOfMenu = "menu";
 QString const fileFormat = ".txt";
 
 };
-
 #endif // MAINWINDOW_H

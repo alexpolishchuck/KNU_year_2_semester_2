@@ -6,7 +6,6 @@
 //#include "editinghistory.h"
 #include <editinghistory.h>
 #include <QShortcut>
-#include "filereader.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,19 +13,18 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    historyOperator = new caretaker(this);
+    historyOperator = new caretaker(this);          //for saving history
 
-    fr = new filereader(NameOfNotes,NameOfArchive,NameOfMenu,fileFormat);
 
     createfiles();
 
+  //  keyCombos.push_back(new QShortcut(QKeySequence(tr("Ctrl+Z")),this));
 
     QListWidget* NotesList = ui->listWidget;
     NotesList->setStyleSheet("QListView {font: 13pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
                              "QListView::item{color:rgb(155, 38, 175);}");
 
-   // readFromFile(NotesList, "notes");
-    fr->readFromFileCheckable(NotesList,NameOfNotes);
+    readFromFile(NotesList, "notes");
     NotesList->setContextMenuPolicy(Qt::CustomContextMenu);
 
     NotesList = ui->listWidget_2;
@@ -34,8 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
     NotesList->setStyleSheet("QListView {font: 16pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
                            "QListView::item{color:rgb(155, 38, 175); ;}");
 
-    // readFromFileNotCheckable(NotesList, "menu");
-    fr->readFromFileNotCheckable(NotesList,NameOfMenu);
+     readFromFileNotCheckable(NotesList, "menu");
+
     NotesList->setCurrentItem(NotesList->item(0));
 
     prevIndex = 0;
@@ -105,8 +103,7 @@ void MainWindow::on_pushButton_3_released()
     //delete secwindow;
     emit anotherWindowIsClosed();
     NotesList->clear();
-    //readFromFile(NotesList, line);                    //showing the main list
-    fr->readFromFileCheckable(NotesList,line);
+    readFromFile(NotesList, line);                    //showing the main list
 }
 void MainWindow::on_pushButton_4_released()
 {
@@ -232,54 +229,53 @@ void MainWindow::deleteFile(QString nameoffile)
     file.remove();
 
 }
-//void MainWindow::readFromFile(QListWidget* NotesList, QString nameoffile)
-//{
+void MainWindow::readFromFile(QListWidget* NotesList, QString nameoffile)
+{
 
-//    nameoffile+=fileFormat;
-//    QFile file (nameoffile);
-//    if(file.open(QIODevice::ReadOnly))
-//    {
+    nameoffile+=fileFormat;
+    QFile file (nameoffile);
+    if(file.open(QIODevice::ReadOnly))
+    {
 
-//       while(!file.atEnd())
-//       {
-//        QString line = file.readLine();
-//        if(line[line.size()-1]=='\n')
-//            line.resize(line.size()-1);
+       while(!file.atEnd())
+       {
+        QString line = file.readLine();
+        if(line[line.size()-1]=='\n')
+            line.resize(line.size()-1);
 
-//        QListWidgetItem* b = new QListWidgetItem;
-//        b->setText(line);
+        QListWidgetItem* b = new QListWidgetItem;
+        b->setText(line);
 
-//        b->setData(Qt::CheckStateRole,0);
-//        NotesList->addItem(b);
-//       }
-//       file.close();
-//     }
-//}
-//void MainWindow::readFromFileNotCheckable(QListWidget* NotesList, QString nameoffile)
-//{
+        b->setData(Qt::CheckStateRole,0);
+        NotesList->addItem(b);
+       }
+       file.close();
+     }
+}
+void MainWindow::readFromFileNotCheckable(QListWidget* NotesList, QString nameoffile)
+{
 
-//    nameoffile+=fileFormat;
-//    QFile file (nameoffile);
-//    if(file.open(QIODevice::ReadOnly))
-//    {
+    nameoffile+=fileFormat;
+    QFile file (nameoffile);
+    if(file.open(QIODevice::ReadOnly))
+    {
 
-//       while(!file.atEnd())
-//       {
-//        QString line = file.readLine();
-//        if(line[line.size()-1]=='\n')
-//            line.resize(line.size()-1);
+       while(!file.atEnd())
+       {
+        QString line = file.readLine();
+        if(line[line.size()-1]=='\n')
+            line.resize(line.size()-1);
 
-//        QListWidgetItem* b = new QListWidgetItem;
-//        int width = NotesList->width()/2;
-//       QString shortline = QFontMetrics(NotesList->font()).elidedText(line,Qt::ElideRight,width,0);
-//        b->setText(shortline);
-//        b->setToolTip(line);
-//        NotesList->addItem(b);
-//       }
-//       file.close();
-//     }
-//}
-
+        QListWidgetItem* b = new QListWidgetItem;
+        int width = NotesList->width()/2;
+       QString shortline = QFontMetrics(NotesList->font()).elidedText(line,Qt::ElideRight,width,0);
+        b->setText(shortline);
+        b->setToolTip(line);
+        NotesList->addItem(b);
+       }
+       file.close();
+     }
+}
 void MainWindow::saveToFile(QString nameOfFile,QListWidget* NotesList)
 {
 
@@ -371,8 +367,7 @@ void MainWindow::showNotesFromSelectedGroup()
 
     line = NotesList2->currentItem()->toolTip();
 
-    //readFromFile(NotesList, line);
-    fr->readFromFileCheckable(NotesList,line);
+    readFromFile(NotesList, line);
 
 }
 void MainWindow::on_lineEdit_editingFinished()
@@ -531,8 +526,7 @@ void MainWindow::removeSelectedItem()
 
         NotesList2->setCurrentItem(NotesList2->item(0));
         line = NotesList2->currentItem()->toolTip();
-       // readFromFile(NotesList,line);
-        fr->readFromFileCheckable(NotesList,line);
+        readFromFile(NotesList,line);
         prevIndex = NotesList2->currentRow();
 
 

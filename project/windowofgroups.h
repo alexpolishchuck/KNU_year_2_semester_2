@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QListWidgetItem>
+#include "filereader.h"
 //#include "mainwindow.h"
 namespace Ui {
 class windowofgroups;
@@ -30,8 +31,6 @@ private slots:
 private:
     Ui::windowofgroups *ui;
 
-    void readFromFileNotCheckable(QListWidget* NotesList, QString nameoffile);
-
     void addtofile(QString nameoffile);
 
     QString line;
@@ -43,6 +42,14 @@ private:
     QString qsreleased = "font: 11pt\"Bodoni MT\" ;background-color: rgb(172, 169, 255); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
 
     bool* isadded = nullptr;
+
+    filereader* fr;
+
+    QString const NameOfNotes ="notes";
+    QString const NameOfArchive="archive";
+    QString const NameOfMenu = "menu";
+    QString const fileFormat = ".txt";
+
 
     //void closeEvent(QCloseEvent *event) override;
 };

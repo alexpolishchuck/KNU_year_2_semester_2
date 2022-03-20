@@ -29,7 +29,7 @@ public:
     //virtual QListWidgetItem* getitem()=0;
     virtual  QString gettext()=0;
     virtual uint getid()=0;
-    virtual ~memento();
+    //virtual ~memento();
 };
 
 class EDITINGHISTORY_EXPORT concretememento:public memento
@@ -41,6 +41,8 @@ public:
 
     concretememento(QString str,QTime t,int _id):text(str),time(t),isdeleted(false), isadded(false),id(_id)
     {}
+//    ~concretememento()
+//    {}
 
     QTime gettime() override;
 
@@ -79,7 +81,11 @@ class EDITINGHISTORY_EXPORT caretaker:public QObject
     caretaker(QObject* qobj);
     ~caretaker();
 
+     memento* getmemento(int id);
 
+     int getlimit();
+
+     int elements();
 
 public slots:
     void backUpDeleted(QString str, uint _id);
@@ -89,13 +95,14 @@ public slots:
     void undo();
 
 
+
 signals:
     void deleteAdded(QString, uint);
 
     void addDeleted(QString,uint);
 
 private:
-
+//public:
     QVector <concretememento*> mementos;
 
     void createConnections(QObject* qobj);
@@ -103,7 +110,8 @@ private:
     const int limit = 20;
 
      QVector<QShortcut*> keyCombos;
-        QObject* parent;
+
+     QObject* parent;
 
 };
 

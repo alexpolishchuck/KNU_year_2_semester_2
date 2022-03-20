@@ -5,6 +5,8 @@
 #include <QListWidgetItem>
 #include <QCloseEvent>
 #include <editinghistory.h>
+#include "filereader.h"
+
 namespace Ui {
 class secondwindow;
 }
@@ -29,8 +31,6 @@ private slots:
     void on_pushButton_2_released();
 
     void on_pushButton_released();
-
-    void readFromFile( QListWidget*, QString);
 
    void removeChecked(QListWidgetItem *item);
 
@@ -57,6 +57,7 @@ private:
     QString const fileFormat = ".txt";
 
     caretaker* historyOperator;
+    filereader* fr;
 
 signals:
     void itemIsAdded(QString,uint);

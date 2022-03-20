@@ -3,23 +3,28 @@
 #include "QMessageBox"
 #include <QFile>
 #include <QCloseEvent>
+#include "filereader.h"
 secondwindow::secondwindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::secondwindow)
 {
     historyOperator = new caretaker(this);
 
+    fr = new filereader(NameOfNotes,NameOfArchive,NameOfMenu,fileFormat);
+
     ui->setupUi(this);
     QListWidget* NotesList = ui->listWidget;
     NotesList->setStyleSheet("QListView {font: 13pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
                              "QListView::item{color:rgb(155, 38, 175);}");
-readFromFile( NotesList, NameOfArchive + fileFormat);
+//readFromFile( NotesList, NameOfArchive + fileFormat);
+fr->readFromFileCheckable(NotesList,NameOfArchive);
 createConnections();
 }
 
 secondwindow::~secondwindow()
 {
      delete historyOperator;
+    delete fr;
     delete ui;
 
 }
@@ -45,26 +50,6 @@ void secondwindow::on_pushButton_released()
     ui->pushButton->setStyleSheet(qsreleased);
     saveArchive();
     close();
-}
-
-void secondwindow::readFromFile(QListWidget* NotesList, QString nameoffile)
-{
-    QFile file (nameoffile);
-    if(file.open(QIODevice::ReadOnly))
-    {
-        QTextStream stream(&file);
-       while(!file.atEnd())
-       {
-        QString line = file.readLine();
-        if(line[line.size()-1]=='\n')
-            line.resize(line.size()-1);
-
-        QListWidgetItem* b = new QListWidgetItem;
-        b->setText(line);
-        b->setData(Qt::CheckStateRole,0);
-        NotesList->addItem(b);
-       }
-     }
 }
 
 void secondwindow::createConnections(){

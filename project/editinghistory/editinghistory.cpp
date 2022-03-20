@@ -50,7 +50,7 @@ uint concretememento::getid()
 void caretaker::backUpDeleted(QString str, uint _id)
 {
     //don't foget to set a limit for saved mementos
-    if(mementos.size() >limit)
+    if(mementos.size() >=limit)
         mementos.pop_front();
 
     concretememento* mem = new concretememento(str,QTime::currentTime(), _id);
@@ -61,20 +61,11 @@ void caretaker::backUpDeleted(QString str, uint _id)
     qDebug()<<"deleted";
 
 }
-//    void caretaker:: backUpAdded(QListWidgetItem* it)
-//    {
-//        if(mementos.size() >limit)
-//            mementos.pop_front();
 
-//        memento* mem = new concretememento(it,QTime::currentTime());
-//        mem->setAdded(true);
-//        mementos.push_back(mem);
-//        qDebug()<<"added";
-//    }
 
 void caretaker::backUpAdded(QString str,uint _id)
 {
-    if(mementos.size() >limit)
+    if(mementos.size() >=limit)
         mementos.pop_front();
 
     concretememento* mem = new concretememento(str,QTime::currentTime(),_id);
@@ -140,4 +131,22 @@ caretaker::~caretaker()                     //disconnect
     int count = mementos.size();
     for(int i=0; i<count ; i++)
         delete mementos[i];
+}
+
+memento* caretaker::getmemento(int id)
+{
+    if(id < this->mementos.size())
+        return this->mementos[id];
+
+    return nullptr;
+}
+
+int caretaker::getlimit()
+{
+    return limit;
+}
+
+int caretaker::elements()
+{
+    return mementos.size();
 }
