@@ -18,7 +18,12 @@
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-
+/*!
+ * \brief The MainWindow class
+ *
+ * Provides all the main features of this aaplication and user interaction with them
+ *
+ */
 class MainWindow : public QMainWindow, public originator
 {
     Q_OBJECT
@@ -30,10 +35,19 @@ public:
     ~MainWindow();
 
 public slots:
-
+    /*!
+  * \brief deleteItemNoSignal
+  * @ref originator "See originator::deleteItemNoSignal(QString text, uint _id)"
+  */
  void deleteItemNoSignal(QString text, uint _id) override;
 
+ /*!
+   *\brief addItemNoSignal
+   * @ref originator "See originator::addItemNoSignal(QString text, uint _id)"
+   */
   void addItemNoSignal(QString text, uint _id) override ;
+
+
 
 private slots:
 
@@ -57,7 +71,7 @@ private slots:
 
     void removeChecked(QListWidgetItem *item);//
 
-    void saveToFile(QString,QListWidget* NotesList);
+    void saveToFile(QString nameOfFile,QListWidget* NotesList);
 
     void saveItem(QListWidgetItem *item, QString nameoffile);
 

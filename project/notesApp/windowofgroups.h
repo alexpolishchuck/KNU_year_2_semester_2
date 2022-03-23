@@ -9,6 +9,12 @@ namespace Ui {
 class windowofgroups;
 }
 
+/*!
+ * \brief The windowofgroups class
+ *
+ * Provides convenient list of groups to interact with
+ *
+ */
 class windowofgroups : public QDialog
 {
     Q_OBJECT
@@ -16,9 +22,20 @@ friend class notesTest;
 public:
     explicit windowofgroups(QWidget *parent = nullptr);
     ~windowofgroups();
-
-void receiveData(QString,QString);
-
+/*!
+ * \brief receiveData
+ * \param a[in] text of item
+ * \param curInMenu[in] name of the currently selected group
+ * Receives data sent from another window
+ */
+void receiveData(QString a, QString curInMenu);
+/*!
+ * \brief receiveData
+ * \param a[in] text of item
+ * \param curInMenu[in] name of the currently selected group
+ * \param b[in] is true, if new item was added to another group,otherwise is false
+ * Receives data sent from another window
+ */
 void receiveData(QString a, QString curInMenu,bool* b);
 
 private slots:

@@ -11,6 +11,12 @@ namespace Ui {
 class secondwindow;
 }
 
+/*!
+ * \brief The secondwindow class
+ *
+ * The window that provides user interaction with archived notes
+ *
+ */
 class secondwindow : public QDialog, originator
 {
     Q_OBJECT
@@ -21,9 +27,21 @@ public:
     ~secondwindow();
 
 public slots:
-    void deleteItemNoSignal(QString text, uint _id) override ;
+    /*!
+  * \brief deleteItemNoSignal
+  * \param text[in] text of an item
+  * \param _id[in] row number of the item in the list
+  * Removes item from the list that demonstrates previously saved and newly added notes without signal
+  */
+ void deleteItemNoSignal(QString text, uint _id) override;
 
-     void addItemNoSignal(QString text, uint _id) override;
+ /*!
+   * \brief addItemNoSignal
+  * \param text[in] text of an item
+  * \param _id[in] row number of the item in the list
+  *Adds item to the list that demonstrates previously saved and newly added notes without signal
+   */
+  void addItemNoSignal(QString text, uint _id) override ;
 private slots:
     void on_pushButton_pressed();
 
