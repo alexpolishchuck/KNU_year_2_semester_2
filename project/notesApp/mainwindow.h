@@ -21,7 +21,7 @@ QT_END_NAMESPACE
 /*!
  * \brief The MainWindow class
  *
- * Provides all the main features of this aaplication and user interaction with them
+ * Provides all the main features of this aplication
  *
  */
 class MainWindow : public QMainWindow, public originator

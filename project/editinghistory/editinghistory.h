@@ -44,13 +44,13 @@ public:
     /*!
      * \brief setAdded
      * \param added
-     * Assigns value of bool added to status of the item, the action was performed on, in the memento
+     * Assigns value of <bool added> to status of the item,that the action was performed on, in the memento
      */
     virtual void setAdded(bool added)=0;
     /*!
      * \brief setDeleted
      * \param deleted
-     * Assigns value of bool deleted to status of the item, the action was performed on, in the memento
+     * Assigns value of bool deleted to status of the item,that the action was performed on, in the memento
      */
     virtual void setDeleted(bool deleted)=0;
     //virtual QListWidgetItem* getitem()=0;
@@ -172,7 +172,7 @@ public slots:
     void backUpDeleted(QString str, uint _id);
     /*!
      * \brief backUpAdded
-     * \param str[in] Text of the item, the action was performed on
+     * \param str[in] Text of the item,that the action was performed on
      * \param _id[in] Number of the row item occupied in the list
      * Creates new memento with information about added item
      */
@@ -207,7 +207,7 @@ private:
 /*!
  * \brief The originator class
  *
- * Abstract class, provides template for the class that owns list of items, actions will be performed on
+ * Abstract class, provides template for the class that owns list of items,that actions will be performed on
  *
  */
 class EDITINGHISTORY_EXPORT originator
