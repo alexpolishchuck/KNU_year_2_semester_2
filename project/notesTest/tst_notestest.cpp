@@ -325,6 +325,8 @@ w.close();
    th.helpwithmessageboxes(this);
    mw.close();
    }
+
+
    #include "tst_notestest.moc"
    QTEST_MAIN(notesTest)
 

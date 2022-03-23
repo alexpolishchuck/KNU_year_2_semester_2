@@ -12,7 +12,7 @@ SOURCES +=  tst_notestest.cpp \
     ../lab1/secondwindow.cpp \
     ../lab1/windowofgroups.cpp
 
-HEADERS += tst_notestest.h \
+HEADERS += \
     ../lab1/filereader.h \
     ../lab1/mainwindow.h \
     ../lab1/secondwindow.h \
