@@ -13,6 +13,7 @@
 #include <QShortcut>
 #include <editinghistory.h>
 #include "filereader.h"
+//#include <QtTest/QTest>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,6 +22,8 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow, public originator
 {
     Q_OBJECT
+
+    friend class notesTest;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -52,7 +55,7 @@ private slots:
 
     void on_lineEdit_editingFinished();
 
-    void removeChecked(QListWidgetItem *item);
+    void removeChecked(QListWidgetItem *item);//
 
     void saveToFile(QString,QListWidget* NotesList);
 
@@ -60,21 +63,21 @@ private slots:
 
     void deleteItem(QListWidgetItem *item, QListWidget* NotesList);
 
-    void removeSelectedItem();
+    void removeSelectedItem();//
 
     void removeSelectedItem(QListWidget* );                                    //overloaded
 
-    void showNotesFromSelectedGroup();
+    void showNotesFromSelectedGroup();//
 
     void changeMenuSelectionBack();
 
     void isNameValid();
 
-    void editNameOfGroup();
+    void editNameOfGroup();//
 
     void removeLastGroupItem();
 
-    void showContextMenu(const QPoint &pos);
+    void showContextMenu(const QPoint &pos);//
 
     void copyToGroup();
 
@@ -107,6 +110,8 @@ private:
 
     int prevIndex;
 
+    const int letterlimit = 30;
+
 void createConnections();
 
 void deleteFile(QString);
@@ -123,6 +128,9 @@ QString const NameOfArchive="archive";
 QString const NameOfMenu = "menu";
 QString const fileFormat = ".txt";
 
+
 };
+
+
 
 #endif // MAINWINDOW_H

@@ -232,53 +232,7 @@ void MainWindow::deleteFile(QString nameoffile)
     file.remove();
 
 }
-//void MainWindow::readFromFile(QListWidget* NotesList, QString nameoffile)
-//{
 
-//    nameoffile+=fileFormat;
-//    QFile file (nameoffile);
-//    if(file.open(QIODevice::ReadOnly))
-//    {
-
-//       while(!file.atEnd())
-//       {
-//        QString line = file.readLine();
-//        if(line[line.size()-1]=='\n')
-//            line.resize(line.size()-1);
-
-//        QListWidgetItem* b = new QListWidgetItem;
-//        b->setText(line);
-
-//        b->setData(Qt::CheckStateRole,0);
-//        NotesList->addItem(b);
-//       }
-//       file.close();
-//     }
-//}
-//void MainWindow::readFromFileNotCheckable(QListWidget* NotesList, QString nameoffile)
-//{
-
-//    nameoffile+=fileFormat;
-//    QFile file (nameoffile);
-//    if(file.open(QIODevice::ReadOnly))
-//    {
-
-//       while(!file.atEnd())
-//       {
-//        QString line = file.readLine();
-//        if(line[line.size()-1]=='\n')
-//            line.resize(line.size()-1);
-
-//        QListWidgetItem* b = new QListWidgetItem;
-//        int width = NotesList->width()/2;
-//       QString shortline = QFontMetrics(NotesList->font()).elidedText(line,Qt::ElideRight,width,0);
-//        b->setText(shortline);
-//        b->setToolTip(line);
-//        NotesList->addItem(b);
-//       }
-//       file.close();
-//     }
-//}
 
 void MainWindow::saveToFile(QString nameOfFile,QListWidget* NotesList)
 {
@@ -318,23 +272,12 @@ void MainWindow::deleteItem(QListWidgetItem *item, QListWidget* NotesList)
 {
     NotesList->removeItemWidget(item);
     if(NotesList == ui->listWidget)
-    emit  itemIsDeleted(item->text(), NotesList->row(item));                                                     //change
+    emit  itemIsDeleted(item->text(), NotesList->row(item));
     delete item;
 
 }
 void MainWindow::deleteItemNoSignal(QString text, uint _id)
 {
-
-
-//    int count= ui->listWidget->count();
-//    for(int i=0; i<count;i ++)
-//        if(!QString::compare(text,ui->listWidget->item(i)->text(),Qt::CaseSensitivity::CaseSensitive))
-//        {
-//            QListWidgetItem* item = ui->listWidget->item(i);
-//            ui->listWidget->removeItemWidget(item);
-//            delete item;
-//            break;
-//        }
 
    QListWidgetItem * item = ui->listWidget->item(_id);
    ui->listWidget->removeItemWidget(item);
@@ -393,7 +336,7 @@ void MainWindow::on_lineEdit_editingFinished()
         emit itemIsAdded(item->text(),NotesList->row(item));
     }
     else
-    if(a.size()>30)
+    if(a.size()>letterlimit)
     {
         QMessageBox::warning(this,"Error", "You entered more than 30 symbols");
     }

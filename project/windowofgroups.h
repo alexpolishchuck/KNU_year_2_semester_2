@@ -12,7 +12,7 @@ class windowofgroups;
 class windowofgroups : public QDialog
 {
     Q_OBJECT
-
+friend class notesTest;
 public:
     explicit windowofgroups(QWidget *parent = nullptr);
     ~windowofgroups();

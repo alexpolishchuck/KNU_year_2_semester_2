@@ -15,6 +15,7 @@ class secondwindow : public QDialog, originator
 {
     Q_OBJECT
 
+    friend class notesTest;
 public:
     explicit secondwindow(QWidget *parent = nullptr);
     ~secondwindow();

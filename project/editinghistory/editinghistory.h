@@ -29,6 +29,7 @@ public:
     //virtual QListWidgetItem* getitem()=0;
     virtual  QString gettext()=0;
     virtual uint getid()=0;
+     ~memento(){};
     //virtual ~memento();
 };
 
@@ -43,6 +44,7 @@ public:
     {}
 //    ~concretememento()
 //    {}
+    ~concretememento(){};
 
     QTime gettime() override;
 
@@ -60,6 +62,8 @@ public:
     void setAdded(bool added) override;
 
     void setDeleted(bool deleted) override;
+
+
 
 private:
 
@@ -79,7 +83,7 @@ class EDITINGHISTORY_EXPORT caretaker:public QObject
 
     public:
     caretaker(QObject* qobj);
-    ~caretaker();
+  virtual  ~caretaker();
 
      memento* getmemento(int id);
 

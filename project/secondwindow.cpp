@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QCloseEvent>
 #include "filereader.h"
+#include <QTimer>
 secondwindow::secondwindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::secondwindow)
@@ -135,3 +136,9 @@ void secondwindow::deleteItemNoSignal(QString text, uint _id)
 {
 
 }
+
+
+
+
+
+
