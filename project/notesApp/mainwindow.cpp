@@ -3,10 +3,10 @@
 #include "QMessageBox"
 #include <QFile>
 #include <QCloseEvent>
-//#include "editinghistory.h"
 #include <editinghistory.h>
 #include <QShortcut>
 #include "filereader.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,8 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     historyOperator = new caretaker(this);
 
-    fr = new filereader(NameOfNotes,NameOfArchive,NameOfMenu,fileFormat);
-
+    fr = new filereader();
     createfiles();
 
 
@@ -26,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
                              "QListView::item{color:rgb(155, 38, 175);}");
 
    // readFromFile(NotesList, "notes");
-    fr->readFromFileCheckable(NotesList,NameOfNotes);
+    fr->readFromFileCheckable( NotesList,fr->getNameOfNotes());
     NotesList->setContextMenuPolicy(Qt::CustomContextMenu);
 
     NotesList = ui->listWidget_2;
@@ -35,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
                            "QListView::item{color:rgb(155, 38, 175); ;}");
 
     // readFromFileNotCheckable(NotesList, "menu");
-    fr->readFromFileNotCheckable(NotesList,NameOfMenu);
+    fr->readFromFileNotCheckable(NotesList,fr->getNameOfMenu());
     NotesList->setCurrentItem(NotesList->item(0));
 
     prevIndex = 0;
@@ -54,15 +53,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::createfiles()
 {
-    QFile f1(this->NameOfMenu + fileFormat);
+    QFile f1(fr->getNameOfMenu() + fr->getFileFormat());
     if(!f1.exists()){
         f1.open(QIODevice::WriteOnly);
         f1.close();
         QListWidgetItem item;
-        item.setText(NameOfNotes);
-        saveItem(&item,NameOfMenu);
-        item.setText(NameOfArchive);
-        saveItem(&item,NameOfMenu);
+        item.setText(fr->getNameOfNotes());
+        saveItem(&item,fr->getNameOfMenu());
+        item.setText(fr->getNameOfArchive());
+        saveItem(&item,fr->getNameOfMenu());
 
 
     }
@@ -138,7 +137,7 @@ void MainWindow::on_pushButton_released()
     QString line = ui->listWidget_2->currentItem()->toolTip();
 
    // saveToFile(line,ui->listWidget);
-    saveToFile(NameOfMenu,ui->listWidget_2);
+    saveToFile(fr->getNameOfMenu(),ui->listWidget_2);
     QApplication::quit();
 }
 
@@ -220,14 +219,14 @@ void MainWindow::isNameValid()
              return;
          }
      }
-             saveToFile(NameOfMenu,ui->listWidget_2);
+             saveToFile(fr->getNameOfMenu(),ui->listWidget_2);
 
 }
 
 
 void MainWindow::deleteFile(QString nameoffile)
 {
-    nameoffile+=fileFormat;
+    nameoffile+=fr->getFileFormat();
     QFile file(nameoffile);
     file.remove();
 
@@ -237,7 +236,7 @@ void MainWindow::deleteFile(QString nameoffile)
 void MainWindow::saveToFile(QString nameOfFile,QListWidget* NotesList)
 {
 
-    nameOfFile+=fileFormat;
+    nameOfFile+=fr->getFileFormat();
 
     QFile file (nameOfFile);
     if(file.open(QIODevice::WriteOnly | QIODevice::Truncate))
@@ -258,7 +257,7 @@ void MainWindow::saveToFile(QString nameOfFile,QListWidget* NotesList)
 
 void MainWindow::saveItem(QListWidgetItem *item, QString nameoffile)
 {
-    QFile file (nameoffile + fileFormat);
+    QFile file (nameoffile + fr->getFileFormat());
     if(file.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QTextStream stream(&file);
@@ -382,7 +381,7 @@ QListWidget* NotesList = ui->listWidget;
 QListWidgetItem* item = NotesList->currentItem();
 if(item)
 {
-    saveToFile(NameOfMenu,ui->listWidget_2);
+    saveToFile(fr->getNameOfMenu(),ui->listWidget_2);
    windowog = new windowofgroups(this);
    windowog->receiveData(item->text(),ui->listWidget_2->currentItem()->toolTip());
    windowog->setModal(true);
@@ -398,7 +397,7 @@ void MainWindow::moveToGroup()
     QListWidgetItem* item = NotesList->currentItem();
     if(item)
     {
-        saveToFile(NameOfMenu,ui->listWidget_2);
+        saveToFile(fr->getNameOfMenu(),ui->listWidget_2);
        windowog = new windowofgroups(this);
        bool isadded = false;
        windowog->receiveData(item->text(),ui->listWidget_2->currentItem()->toolTip(), &isadded);
@@ -424,14 +423,14 @@ void MainWindow::removeChecked(QListWidgetItem *item)
         QListWidgetItem * menuitem = ui->listWidget_2->currentItem();
             QString check = menuitem->toolTip().replace("\r","");
             check.shrink_to_fit();
-        if(QString::compare(check,NameOfArchive, Qt::CaseInsensitive))
+        if(QString::compare(check,fr->getNameOfArchive(), Qt::CaseInsensitive))
         {
-        saveItem(item, NameOfArchive);
+        saveItem(item, fr->getNameOfArchive());
         deleteItem(item, ui->listWidget);
         }
         else
         {
-            saveItem(item,NameOfNotes);
+            saveItem(item,fr->getNameOfNotes());
             deleteItem(item, ui->listWidget);
         }
     }

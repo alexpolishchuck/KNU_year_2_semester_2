@@ -5,20 +5,22 @@
 #include <QCloseEvent>
 #include "filereader.h"
 #include <QTimer>
+
 secondwindow::secondwindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::secondwindow)
 {
     historyOperator = new caretaker(this);
 
-    fr = new filereader(NameOfNotes,NameOfArchive,NameOfMenu,fileFormat);
+
+    fr = new filereader(fr->getNameOfNotes(),fr->getNameOfArchive(),fr->getNameOfMenu(),fr->getFileFormat());
 
     ui->setupUi(this);
     QListWidget* NotesList = ui->listWidget;
     NotesList->setStyleSheet("QListView {font: 13pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
                              "QListView::item{color:rgb(155, 38, 175);}");
 //readFromFile( NotesList, NameOfArchive + fileFormat);
-fr->readFromFileCheckable(NotesList,NameOfArchive);
+fr->readFromFileCheckable(NotesList,nof->getNameOfArchive());
 createConnections();
 }
 
@@ -81,7 +83,7 @@ void secondwindow::removeSelectedItem()
 }
 void secondwindow::moveToFile(QListWidgetItem *item)
 {
-    QFile file (NameOfNotes + fileFormat);
+    QFile file (fr->getNameOfNotes() + fr->getFileFormat());
     if(file.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QTextStream stream(&file);
@@ -90,7 +92,7 @@ void secondwindow::moveToFile(QListWidgetItem *item)
 }
 void secondwindow::saveArchive()
 {
-    QFile file (NameOfArchive + fileFormat);
+    QFile file (fr->getNameOfArchive() + fr->getFileFormat());
     if(file.open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
         QTextStream stream(&file);

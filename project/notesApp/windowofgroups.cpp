@@ -9,7 +9,8 @@ windowofgroups::windowofgroups(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    fr = new filereader(NameOfNotes,NameOfArchive,NameOfMenu,fileFormat);
+
+    fr = new filereader(fr->getNameOfNotes(),fr->getNameOfArchive(),fr->getNameOfMenu(),fr->getFileFormat());
 
     QListWidget* NotesList = ui->listWidget;
     NotesList->setStyleSheet("QListView {font:  16pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"

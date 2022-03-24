@@ -31,6 +31,7 @@ public:
       * \param[in] NotesList list widget
       * \param[in] str string to edit
       * \return shortened initial string
+      *
       * Elides symbols that are beyond the limit
       */
      virtual QString makeshort(QListWidget* NotesList,QString str);
@@ -39,6 +40,7 @@ public:
       * \brief setToolTip
       * \param item[in,out] the item to edit
       * \param str[in] the string to set as a ToolTip
+      *
       * Sets ToolTip for the specific item of the list
       */
      virtual void setToolTip(QListWidgetItem* item, QString str);
@@ -52,6 +54,7 @@ public:
      /*!
       * \brief setcheckable
       * \param item[in,out] the item to edit
+      *
       * Sets CheckStateRole for the item
       */
      virtual void setcheckable(QListWidgetItem* item);
@@ -76,9 +79,25 @@ public:
       */
      QString getFileFormat();
 protected:
+     /*!
+      * \brief NameOfNotes
+      * Name of the main file of
+      */
      QString const NameOfNotes ="notes";
+     /*!
+      * \brief NameOfArchive
+      * Name of file that contains archived notes
+      */
      QString const NameOfArchive="archive";
+     /*!
+      * \brief NameOfMenu
+      * Name of file that contains all names of groups
+      */
      QString const NameOfMenu = "menu";
+     /*!
+      * \brief fileFormat
+      * Stores file format
+      */
      QString const fileFormat = ".txt";
 };
 

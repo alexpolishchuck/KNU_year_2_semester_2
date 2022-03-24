@@ -44,12 +44,14 @@ public:
     /*!
      * \brief setAdded
      * \param added
+     *
      * Assigns value of <bool added> to status of the item,that the action was performed on, in the memento
      */
     virtual void setAdded(bool added)=0;
     /*!
      * \brief setDeleted
      * \param deleted
+     *
      * Assigns value of bool deleted to status of the item,that the action was performed on, in the memento
      */
     virtual void setDeleted(bool deleted)=0;
@@ -122,14 +124,37 @@ public:
 
 private:
 
-
+    /*!
+     * \brief text
+     * Text of the item, the action was performed on
+     */
     QString text;
+    /*!
+     * \brief nameoffile
+     * Name of group item belonged
+     */
     QString nameoffile;
+    /*!
+     * \brief time
+     *  Time of the last action
+     */
     QTime time;
+    /*!
+     * \brief isdeleted
+     * Indicates if item was deleted
+     */
     bool isdeleted;
+    /*!
+     * \brief isadded
+     * Indicates if item was added
+     */
     bool isadded;
+    /*!
+     * \brief id
+     * Number of the row item occupied in the list
+     */
     uint id;
-   // QListWidgetItem* item;
+
 };
 
 /*!
@@ -167,6 +192,7 @@ public slots:
      * \brief backUpDeleted
      * \param str[in] Text of the item, the action was performed on
      * \param _id[in] Number of the row item occupied in the list
+     *
      * Creates new memento with information about deleted item
      */
     void backUpDeleted(QString str, uint _id);
@@ -174,6 +200,7 @@ public slots:
      * \brief backUpAdded
      * \param str[in] Text of the item,that the action was performed on
      * \param _id[in] Number of the row item occupied in the list
+     *
      * Creates new memento with information about added item
      */
     void backUpAdded(QString str, uint _id);
@@ -192,14 +219,34 @@ signals:
 
 private:
 //public:
+    /*!
+     * \brief mementos
+     * Vector of mementos
+     *
+     *@ref memento See memento
+     */
     QVector <concretememento*> mementos;
-
+    /*!
+     * \brief createConnections
+     * \param qobj[in] parent of caretaker
+     *
+     * Creates connections with other QObjects
+     */
     void createConnections(QObject* qobj);
-
+    /*!
+     * \brief limit
+     * Maximu number of saved mementos
+     */
     const int limit = 20;
-
+    /*!
+      * \brief keyCombos
+      * Key combinaions
+      */
      QVector<QShortcut*> keyCombos;
-
+     /*!
+      * \brief parent
+      * Parent of the caretaker
+      */
      QObject* parent;
 
 };
@@ -218,6 +265,7 @@ public:
   * \brief deleteItemNoSignal
   * \param text[in] text of an item
   * \param _id[in] row number of the item in the list
+  *
   * Removes item from the list without signal
   */
    virtual void deleteItemNoSignal(QString text, uint _id)=0 ;
@@ -225,6 +273,7 @@ public:
       * \brief addItemNoSignal
      * \param text[in] text of an item
      * \param _id[in] row number of the item in the list
+     *
      *Adds item to the list without signal
       */
     virtual void addItemNoSignal(QString text, uint _id)=0 ;

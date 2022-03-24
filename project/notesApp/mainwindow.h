@@ -8,12 +8,12 @@
 #include "secondwindow.h"
 #include "windowofgroups.h"
 #include <QCloseEvent>
-//#include "editinghistory.h"
 #include <QVector>
 #include <QShortcut>
 #include <editinghistory.h>
 #include "filereader.h"
-//#include <QtTest/QTest>
+
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -71,35 +71,39 @@ private slots:
 
     void removeChecked(QListWidgetItem *item);//
 
-    void saveToFile(QString nameOfFile,QListWidget* NotesList);
-
-    void saveItem(QListWidgetItem *item, QString nameoffile);
-
-    void deleteItem(QListWidgetItem *item, QListWidget* NotesList);
-
+    /*!
+     * \brief removeSelectedItem
+     * Removes selected item from the list of notes
+     */
     void removeSelectedItem();//
-
+    /*!
+     * \brief removeSelectedItem
+     * Removes selected item from the list of notes
+     */
     void removeSelectedItem(QListWidget* );                                    //overloaded
-
+    /*!
+     * \brief showNotesFromSelectedGroup
+     * Displays notes from the selected group
+     */
     void showNotesFromSelectedGroup();//
-
-    void changeMenuSelectionBack();
-
-    void isNameValid();
-
+    /*!
+     * \brief editNameOfGroup
+     * Edits name of the last added group
+     */
     void editNameOfGroup();//
-
-    void removeLastGroupItem();
-
+    /*!
+     * \brief showContextMenu
+     * \param pos[in] position of the cursor
+     *
+     * Displays context menu
+     */
     void showContextMenu(const QPoint &pos);//
-
-    void copyToGroup();
-
-    void createfiles();
-
-    void moveToGroup();
-
-    void recreateHistoryOperator();
+    /*!
+     * \brief recreateHistoryOperator
+     * Creates new history opearator
+     * @ref caretaker See caretaker
+     */
+    void recreateHistoryOperator();//
 
 signals:
     void sendDataToAnotherWindow(QString);
@@ -111,36 +115,150 @@ signals:
     void anotherWindowIsClosed();
 
 private:
+    /*!
+     * \brief saveToFile
+     * \param nameOfFile[in] name of file
+     * \param NotesList[in] list of notes
+     *
+     * Saves notes from <QListWidget* NotesList> to file
+     */
+    void saveToFile(QString nameOfFile,QListWidget* NotesList);
+    /*!
+     * \brief saveItem
+     * \param item[in]
+     * \param nameoffile[in] name of file
+     *
+     * Saves specific item to file
+     */
+
+    void saveItem(QListWidgetItem *item, QString nameoffile);
+    /*!
+     * \brief deleteItem
+     * \param item
+     * \param NotesList list of notes
+     *
+     * Deletes item from the list, send
+     */
+    void deleteItem(QListWidgetItem *item, QListWidget* NotesList);
+    /*!
+     * \brief copyToGroup
+     * Copies item to the selected group
+     */
+    void copyToGroup();
+    /*!
+     * \brief createfiles
+     * Creates files of the primary groups, such as 'notes'and 'archive'
+     */
+    void createfiles();
+    /*!
+     * \brief moveToGroup
+     * Moves item to the selected group
+     */
+    void moveToGroup();
+    /*!
+     * \brief changeMenuSelectionBack
+     * Opens previous group
+     */
+    void changeMenuSelectionBack();
+    /*!
+     * \brief isNameValid
+     * Checks if name of a group meets all the requirements
+     */
+    void isNameValid();
+    /*!
+     * \brief removeLastGroupItem
+     */
+
+    /*!
+     * \brief removeLastGroupItem
+     * Removes invalid item from the list of groups
+     */
+    void removeLastGroupItem();
+
+
+private:
 
     Ui::MainWindow *ui;
 
+    /*!
+     * @ref secondwindow See secondwindow
+     */
     secondwindow* secwindow;
 
+    /*!
+     * @ref windowofgroups See windowofgroups
+     */
     windowofgroups* windowog;
 
+    /*!
+     * @ref caretaker See caretaker
+     */
     caretaker* historyOperator;
-
+    /*!
+     * @filereader See filereader
+     */
     filereader* fr;
+    /*!
+     * \brief prevIndex
+     * Saves id of the previously selected group
+     */
+
 
     int prevIndex;
-
+    /*!
+     * \brief letterlimit
+     * Maintains maximum number of symbols that can be written in one note
+     */
     const int letterlimit = 30;
 
+    /*!
+ * \brief createConnections
+ * Creates connections between QObjects
+ */
 void createConnections();
-
+/*!
+ * \brief deleteFile
+ * Removes file
+ */
 void deleteFile(QString);
-
+/*!
+ * \brief closeEvent
+ * \param event
+ * Displays message box before closing the application
+ */
 void closeEvent (QCloseEvent *event) override;
 
-
+/*!
+ * \brief qspressed
+ * Style for a pressed button
+ */
 QString qspressed = "font: 11pt\"Bodoni MT\" ;background-color: rgb(109, 127, 209); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
-
+/*!
+ * \brief qsreleased
+ * Style for a released button
+ */
 QString qsreleased = "font: 11pt\"Bodoni MT\" ;background-color: rgb(172, 169, 255); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
 
-QString const NameOfNotes ="notes";
-QString const NameOfArchive="archive";
-QString const NameOfMenu = "menu";
-QString const fileFormat = ".txt";
+///*!
+// * \brief NameOfNotes
+// * Name of the main file of
+// */
+//QString const NameOfNotes ="notes";
+///*!
+// * \brief NameOfArchive
+// * Name of file that contains archived notes
+// */
+//QString const NameOfArchive="archive";
+///*!
+// * \brief NameOfMenu
+// * Name of file that contains all names of groups
+// */
+//QString const NameOfMenu = "menu";
+///*!
+// * \brief fileFormat
+// * Stores file format
+// */
+//QString const fileFormat = ".txt";
 
 
 };

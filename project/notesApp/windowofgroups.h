@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QListWidgetItem>
 #include "filereader.h"
-//#include "mainwindow.h"
+
 namespace Ui {
 class windowofgroups;
 }
@@ -26,6 +26,7 @@ public:
  * \brief receiveData
  * \param a[in] text of item
  * \param curInMenu[in] name of the currently selected group
+ *
  * Receives data sent from another window
  */
 void receiveData(QString a, QString curInMenu);
@@ -34,6 +35,7 @@ void receiveData(QString a, QString curInMenu);
  * \param a[in] text of item
  * \param curInMenu[in] name of the currently selected group
  * \param b[in] is true, if new item was added to another group,otherwise is false
+ *
  * Receives data sent from another window
  */
 void receiveData(QString a, QString curInMenu,bool* b);
@@ -48,24 +50,45 @@ private slots:
 private:
     Ui::windowofgroups *ui;
 
+
+
+    /*!
+     * \brief addtofile
+     * \param nameoffile[in]
+     *
+     * Saves item to file
+     */
     void addtofile(QString nameoffile);
 
+    /*!
+     * \brief line
+     * Text of the selected item
+     */
     QString line;
-
+    /*!
+     * \brief curMenu
+     * Name of currently open group
+     */
     QString curMenu;
-
+    /*!
+     * \brief qspressed
+     * Style for a pressed button
+     */
     QString qspressed = "font: 11pt\"Bodoni MT\" ;background-color: rgb(109, 127, 209); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
-
+    /*!
+     * \brief qsreleased
+     * Style for a released button
+     */
     QString qsreleased = "font: 11pt\"Bodoni MT\" ;background-color: rgb(172, 169, 255); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
 
     bool* isadded = nullptr;
 
+    /*!
+     * @filereader See filereader
+     */
     filereader* fr;
 
-    QString const NameOfNotes ="notes";
-    QString const NameOfArchive="archive";
-    QString const NameOfMenu = "menu";
-    QString const fileFormat = ".txt";
+
 
 
     //void closeEvent(QCloseEvent *event) override;
