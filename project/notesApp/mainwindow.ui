@@ -32,7 +32,7 @@ border-bottom-color: rgb(109, 127, 209);
 </string>
         </property>
         <property name="text">
-         <string>            NOTES</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;NOTES&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
@@ -138,7 +138,7 @@ border-bottom-color: rgb(109, 127, 209);</string>
      <x>0</x>
      <y>0</y>
      <width>438</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

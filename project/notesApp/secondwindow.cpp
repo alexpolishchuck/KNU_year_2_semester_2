@@ -3,81 +3,56 @@
 #include "QMessageBox"
 #include <QFile>
 #include <QCloseEvent>
+#include "filereader.h"
+#include <QTimer>
+
 secondwindow::secondwindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::secondwindow)
 {
+    historyOperator = new caretaker(this);
+
+
+    fr = new filereader();
+
     ui->setupUi(this);
     QListWidget* NotesList = ui->listWidget;
-    NotesList->setStyleSheet("QListView {font: 75 11pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
+    NotesList->setStyleSheet("QListView {font: 13pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
                              "QListView::item{color:rgb(155, 38, 175);}");
-readFromFile( NotesList, "archieve.txt");
+//readFromFile( NotesList, NameOfArchive + fileFormat);
+fr->readFromFileCheckable(NotesList,fr->getNameOfArchive());
 createConnections();
 }
 
 secondwindow::~secondwindow()
 {
+     delete historyOperator;
+    delete fr;
     delete ui;
+
 }
-QString qspressed1 = "font: 11pt\"Bodoni MT\" ;background-color: rgb(109, 127, 209); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
-QString qsreleased1 = "font: 11pt\"Bodoni MT\" ;background-color: rgb(172, 169, 255); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
 
 void secondwindow::on_pushButton_pressed()
 {
-    ui->pushButton->setStyleSheet(qspressed1);
+    ui->pushButton->setStyleSheet(qspressed);
 
 }
 void secondwindow::on_pushButton_2_pressed()
 {
-    ui->pushButton_2->setStyleSheet(qspressed1);
+    ui->pushButton_2->setStyleSheet(qspressed);
 
 }
-void secondwindow::on_pushButton_3_pressed()
-{
-    ui->pushButton_3->setStyleSheet(qspressed1);
 
-}
-void secondwindow::on_pushButton_4_pressed()
-{
-    ui->pushButton_4->setStyleSheet(qspressed1);
-}
 void secondwindow::on_pushButton_2_released()
 {
-    ui->pushButton_2->setStyleSheet(qsreleased1);
+    ui->pushButton_2->setStyleSheet(qsreleased);
 }
-void secondwindow::on_pushButton_3_released()
-{
-    ui->pushButton_3->setStyleSheet(qsreleased1);
-}
-void secondwindow::on_pushButton_4_released()
-{
-    ui->pushButton_4->setStyleSheet(qsreleased1);
-}
+
 void secondwindow::on_pushButton_released()
 {
-    ui->pushButton->setStyleSheet(qsreleased1);
+    ui->pushButton->setStyleSheet(qsreleased);
     saveArchive();
     close();
-}
-
-void secondwindow::readFromFile(QListWidget* NotesList, QString nameoffile)
-{
-    QFile file (nameoffile);
-    if(file.open(QIODevice::ReadOnly))
-    {
-        QTextStream stream(&file);
-       while(!file.atEnd())
-       {
-        QString line = file.readLine();
-        if(line[line.size()-1]=='\n')
-            line.resize(line.size()-1);
-
-        QListWidgetItem* b = new QListWidgetItem;
-        b->setText(line);
-        b->setData(Qt::CheckStateRole,0);
-        NotesList->addItem(b);
-       }
-     }
 }
 
 void secondwindow::createConnections(){
@@ -90,6 +65,7 @@ void secondwindow::createConnections(){
 void secondwindow::removeChecked(QListWidgetItem *item){
     if(item->checkState() == Qt::Checked){
         moveToFile(item);
+         emit itemIsDeleted(item->text(),ui->listWidget->row(item));
         ui->listWidget->removeItemWidget(item);
      delete item;
     }
@@ -100,13 +76,14 @@ void secondwindow::removeSelectedItem()
     QListWidgetItem* item = NotesList->currentItem();
     if(item)
     {
+        emit itemIsDeleted(item->text(),NotesList->row(item));
     ui->listWidget->removeItemWidget(item);
  delete item;
     }
 }
 void secondwindow::moveToFile(QListWidgetItem *item)
 {
-    QFile file ("notes.txt");
+    QFile file (fr->getNameOfNotes() + fr->getFileFormat());
     if(file.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QTextStream stream(&file);
@@ -115,7 +92,7 @@ void secondwindow::moveToFile(QListWidgetItem *item)
 }
 void secondwindow::saveArchive()
 {
-    QFile file ("archieve.txt");
+    QFile file (fr->getNameOfArchive() + fr->getFileFormat());
     if(file.open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
         QTextStream stream(&file);
@@ -147,3 +124,23 @@ void secondwindow::closeEvent(QCloseEvent *event)
             event->accept();
         }
 }
+
+void secondwindow::addItemNoSignal(QString text, uint _id)
+{
+    QListWidgetItem* item = new QListWidgetItem;
+    item->setText(text);
+    item->setData(Qt::CheckStateRole,0);
+
+    ui->listWidget->insertItem(_id,item);
+}
+
+void secondwindow::deleteItemNoSignal(QString text, uint _id)
+{
+
+}
+
+
+
+
+
+
