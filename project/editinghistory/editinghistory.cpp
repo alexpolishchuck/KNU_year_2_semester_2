@@ -81,7 +81,8 @@ void caretaker::undo()
 {
     if(mementos.size()<1)
         return;
-    concretememento*mem = mementos.last();
+    //concretememento*mem = mementos.last();
+     memento*mem = mementos.last();
     if(mem->isAdded())
     {
        emit deleteAdded(mem->gettext(),mem->getid());

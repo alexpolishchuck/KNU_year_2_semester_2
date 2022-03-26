@@ -79,13 +79,13 @@ void notesTest::cleanupTestCase()
 void notesTest::deleteprevfiles()
 {
     MainWindow w;
-    QFile f1(w.NameOfNotes + w.fileFormat);
+    QFile f1(w.nfr->getNameOfNotes() + w.nfr->getFileFormat());
     if(f1.exists())
         f1.remove();
-    QFile f2(w.NameOfArchive + w.fileFormat);
+    QFile f2(w.nfr->getNameOfArchive() + w.nfr->getFileFormat());
     if(f2.exists())
         f2.remove();
-    QFile f3(w.NameOfMenu + w.fileFormat);
+    QFile f3(w.nfr->getNameOfMenu() + w.nfr->getFileFormat());
     if(f3.exists())
         f3.remove();
 }
@@ -155,7 +155,7 @@ void notesTest::addingNewNotesThroughlineeditTest_case()
         QTest::keyClicks(w->ui->lineEdit,"newNote");
         QTest::keyClick(w->ui->lineEdit,Qt::Key_Enter);
 
-        QListWidgetItem* item = w->ui->listWidget->item(0);
+        QListWidgetItem* item = w->ui->listofnotes->item(0);
         QCOMPARE(item->text(),"newNote");
 
         th.helpwithmessageboxes(this);
@@ -215,19 +215,19 @@ void notesTest::createnewgroupTest_case()
     MainWindow w;
     testhelper th;
 
-    QTest::mouseClick(w.ui->pushButton_4,Qt::MouseButton::LeftButton);
+    QTest::mouseClick(w.ui->add_group_button,Qt::MouseButton::LeftButton);
 
 
-    QAbstractItemDelegate* delegate = w.ui->listWidget_2->itemDelegate();
+    QAbstractItemDelegate* delegate = w.ui->listofgroups->itemDelegate();
    QSignalSpy spy(delegate,SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)));
- w.ui->listWidget_2->item(w.ui->listWidget_2->count()-1)->setText("test1");
+ w.ui->listofgroups->item(w.ui->listofgroups->count()-1)->setText("test1");
 
- QTest::keyClick(w.ui->listWidget_2->itemWidget(w.ui->listWidget_2->item(w.ui->listWidget_2->count()-1)),Qt::Key_Escape);
+ QTest::keyClick(w.ui->listofgroups->itemWidget(w.ui->listofgroups->item(w.ui->listofgroups->count()-1)),Qt::Key_Escape);
  QVERIFY(spy.count() == 1);
 
    // QTest::keyClick(w.ui->listWidget_2,Qt::Key_Enter);
 
-   QCOMPARE(w.ui->listWidget_2->item(w.ui->listWidget_2->count()-1)->text(),"test1");
+   QCOMPARE(w.ui->listofgroups->item(w.ui->listofgroups->count()-1)->text(),"test1");
 
    th.helpwithmessageboxes(this);
    w.close();
@@ -247,18 +247,18 @@ void notesTest::editgroupnameTest_case()
        testhelper th;
       // th.helpwithmessageboxes(this);
 
-       QAbstractItemDelegate* delegate = w.ui->listWidget_2->itemDelegate();
+       QAbstractItemDelegate* delegate = w.ui->listofgroups->itemDelegate();
       QSignalSpy spy(delegate,SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)));
 
-      QTest::mouseClick(w.ui->pushButton_4,Qt::MouseButton::LeftButton);
-    w.ui->listWidget_2->item(w.ui->listWidget_2->count()-1)->setText("test1");
-    QTest::keyClick(w.ui->listWidget_2->itemWidget(w.ui->listWidget_2->item(w.ui->listWidget_2->count()-1)),Qt::Key_Escape);
+      QTest::mouseClick(w.ui->add_group_button,Qt::MouseButton::LeftButton);
+    w.ui->listofgroups->item(w.ui->listofgroups->count()-1)->setText("test1");
+    QTest::keyClick(w.ui->listofgroups->itemWidget(w.ui->listofgroups->item(w.ui->listofgroups->count()-1)),Qt::Key_Escape);
 
-    QTest::mouseClick(w.ui->pushButton_4,Qt::MouseButton::LeftButton);
-  w.ui->listWidget_2->item(w.ui->listWidget_2->count()-1)->setText("test1");
+    QTest::mouseClick(w.ui->add_group_button,Qt::MouseButton::LeftButton);
+  w.ui->listofgroups->item(w.ui->listofgroups->count()-1)->setText("test1");
 
 th.helpverifymessageboxes(this);
-  QTest::keyClick(w.ui->listWidget_2->itemWidget(w.ui->listWidget_2->item(w.ui->listWidget_2->count()-1)),Qt::Key_Escape);
+  QTest::keyClick(w.ui->listofgroups->itemWidget(w.ui->listofgroups->item(w.ui->listofgroups->count()-1)),Qt::Key_Escape);
 QVERIFY(spy.count() == 2);
 
 th.helpwithmessageboxes(this);
@@ -270,22 +270,22 @@ w.close();
        MainWindow* w = new MainWindow();
        testhelper th;
 
-       QSignalSpy spy(w->ui->listWidget_2,SIGNAL(itemClicked(QListWidgetItem*)));
+       QSignalSpy spy(w->ui->listofgroups,SIGNAL(itemClicked(QListWidgetItem*)));
        QSignalSpy spy1(w,SIGNAL(itemIsDeleted(QString, uint)));
-           QRect rect = w->ui->listWidget_2->visualItemRect(w->ui->listWidget_2->item(0));
+           QRect rect = w->ui->listofgroups->visualItemRect(w->ui->listofgroups->item(0));
            QPoint pos(rect.center().x(),rect.center().y() );
-       QTest::mouseClick(w->ui->listWidget_2->viewport(),Qt::MouseButton::LeftButton,Qt::KeyboardModifiers(),pos);
+       QTest::mouseClick(w->ui->listofgroups->viewport(),Qt::MouseButton::LeftButton,Qt::KeyboardModifiers(),pos);
        QCOMPARE(spy.count(),1);
        QListWidgetItem* item = new  QListWidgetItem;
        item->setText("test1");
        item->setData(Qt::CheckStateRole,0);
-       w->ui->listWidget->addItem(item);
-       QCOMPARE(w->ui->listWidget->count(),1);
-       w->ui->listWidget->setCurrentItem(item);
-       QTest::mouseClick(w->ui->pushButton_2,Qt::MouseButton::LeftButton);
+       w->ui->listofnotes->addItem(item);
+       QCOMPARE(w->ui->listofnotes->count(),1);
+       w->ui->listofnotes->setCurrentItem(item);
+       QTest::mouseClick(w->ui->delete_button,Qt::MouseButton::LeftButton);
       // w->deleteItem(item,w->ui->listWidget);
        QCOMPARE(spy1.count(),1);
-       QCOMPARE(w->ui->listWidget->count(),0);
+       QCOMPARE(w->ui->listofnotes->count(),0);
 
        th.helpwithmessageboxes(this);
        w->close();
@@ -299,28 +299,28 @@ w.close();
        testhelper th;
 
        QVector<QString> names;
-       names.push_back(mw.NameOfNotes);
-       names.push_back(mw.NameOfArchive);
+       names.push_back(mw.nfr->getNameOfNotes());
+       names.push_back(mw.nfr->getNameOfArchive());
 
-       QSignalSpy spy(mw.ui->listWidget,SIGNAL(itemChanged(QListWidgetItem*)));
+       QSignalSpy spy(mw.ui->listofnotes,SIGNAL(itemChanged(QListWidgetItem*)));
 
 
-       QRect rect = mw.ui->listWidget_2->visualItemRect(mw.ui->listWidget_2->item(0));
+       QRect rect = mw.ui->listofgroups->visualItemRect(mw.ui->listofgroups->item(0));
        QPoint pos(rect.center().x(),rect.center().y() );
-   QTest::mouseClick(mw.ui->listWidget_2->viewport(),Qt::MouseButton::LeftButton,Qt::KeyboardModifiers(),pos);
+   QTest::mouseClick(mw.ui->listofgroups->viewport(),Qt::MouseButton::LeftButton,Qt::KeyboardModifiers(),pos);
    QListWidgetItem* item = new  QListWidgetItem;
    item->setText("test1");
    item->setData(Qt::CheckStateRole,0);
-   mw.ui->listWidget->addItem(item);
-   mw.ui->listWidget->item(0)->setCheckState(Qt::CheckState::Checked);
+   mw.ui->listofnotes->addItem(item);
+   mw.ui->listofnotes->item(0)->setCheckState(Qt::CheckState::Checked);
   QVERIFY(spy.count() == 1);
-  QVERIFY(mw.ui->listWidget->count()==0);
+  QVERIFY(mw.ui->listofnotes->count()==0);
 
-   rect = mw.ui->listWidget_2->visualItemRect(mw.ui->listWidget_2->item(1));
+   rect = mw.ui->listofgroups->visualItemRect(mw.ui->listofgroups->item(1));
    pos.setX(rect.center().x());
    pos.setY(rect.center().y());
-   QTest::mouseClick(mw.ui->listWidget_2->viewport(),Qt::MouseButton::LeftButton,Qt::KeyboardModifiers(),pos);
-   QCOMPARE(mw.ui->listWidget->item(0)->text(), "test1");
+   QTest::mouseClick(mw.ui->listofgroups->viewport(),Qt::MouseButton::LeftButton,Qt::KeyboardModifiers(),pos);
+   QCOMPARE(mw.ui->listofnotes->item(0)->text(), "test1");
 
    th.helpwithmessageboxes(this);
    mw.close();

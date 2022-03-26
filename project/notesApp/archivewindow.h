@@ -1,5 +1,5 @@
-#ifndef SECONDWINDOW_H
-#define SECONDWINDOW_H
+#ifndef ARCHIVEWINDOW_H
+#define ARCHIVEWINDOW_H
 
 #include <QDialog>
 #include <QListWidgetItem>
@@ -8,8 +8,9 @@
 #include "filereader.h"
 
 
+
 namespace Ui {
-class secondwindow;
+class archivewindow;
 }
 
 /*!
@@ -18,14 +19,14 @@ class secondwindow;
  * The window that provides user interaction with archived notes
  *
  */
-class secondwindow : public QDialog, originator
+class archivewindow : public QDialog, originator
 {
     Q_OBJECT
 
     friend class notesTest;
 public:
-    explicit secondwindow(QWidget *parent = nullptr);
-    ~secondwindow();
+    explicit archivewindow(QWidget *parent = nullptr);
+    ~archivewindow();
 
 public slots:
     /*!
@@ -35,7 +36,7 @@ public slots:
   *
   * Removes item from the list that demonstrates previously saved and newly added notes without signal
   */
- void deleteItemNoSignal(QString text, uint _id) override;
+ //void deleteItemNoSignal(QString text, uint _id) override;
 
  /*!
    * \brief addItemNoSignal
@@ -46,13 +47,13 @@ public slots:
    */
   void addItemNoSignal(QString text, uint _id) override ;
 private slots:
-    void on_pushButton_pressed();
+    void on_exit_button_pressed();
 
-    void on_pushButton_2_pressed();
+    void on_delete_button_pressed();
 
-    void on_pushButton_2_released();
+    void on_delete_button_released();
 
-    void on_pushButton_released();
+    void on_exit_button_released();
 
     /*!
     * \brief removeChecked
@@ -80,7 +81,7 @@ private slots:
    void saveArchive();
 
 private:
-    Ui::secondwindow *ui;
+    Ui::archivewindow *ui;
 
 
     /*!
@@ -110,9 +111,9 @@ private:
      */
     caretaker* historyOperator;
     /*!
-     * @filereader See filereader
+     * @initfilereader See initfilereader
      */
-    filereader* fr;
+    initfilereader* nfr;
 
 
 signals:
@@ -121,4 +122,4 @@ signals:
 
 };
 
-#endif // SECONDWINDOW_H
+#endif // ARCHIVEWINDOW_H

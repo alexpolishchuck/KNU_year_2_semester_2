@@ -28,7 +28,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QListWidget" name="listWidget"/>
+           <widget class="QListWidget" name="listofgroups"/>
           </item>
          </layout>
         </item>
@@ -64,7 +64,7 @@ border-bottom-color: rgb(109, 127, 209);
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="exit_button">
             <property name="styleSheet">
              <string notr="true">font: 11pt &quot;Bodoni MT&quot;;
 background-color: rgb(172, 169, 255);

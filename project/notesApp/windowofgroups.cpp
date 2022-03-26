@@ -10,20 +10,20 @@ windowofgroups::windowofgroups(QWidget *parent) :
     ui->setupUi(this);
 
 
-    fr = new filereader(fr->getNameOfNotes(),fr->getNameOfArchive(),fr->getNameOfMenu(),fr->getFileFormat());
+    gfr = new readerofgroups();
 
-    QListWidget* NotesList = ui->listWidget;
+    QListWidget* NotesList = ui->listofgroups;
     NotesList->setStyleSheet("QListView {font:  16pt\"Bodoni MT\";border-style:solid;border-width:2px;border-color: rgb(109, 127, 209);}"
                              "QListView::item{color:rgb(155, 38, 175);}");
 
 
 
-    fr->readFromFileNotCheckable(NotesList,fr->getNameOfMenu());
+    gfr->readFromFile(NotesList,gfr->getNameOfMenu());
 }
 
 windowofgroups::~windowofgroups()
 {
-    delete fr;
+    delete gfr;
     delete ui;
 }
 
@@ -39,10 +39,10 @@ void windowofgroups::receiveData(QString a, QString curInMenu,bool* b)
     isadded = b;
     curMenu = curInMenu;
 }
-void windowofgroups::on_pushButton_released()
+void windowofgroups::on_exit_button_released()
 {
-     ui->pushButton->setStyleSheet(qsreleased);
-     QListWidget* NotesList = ui->listWidget;
+     ui->exit_button->setStyleSheet(qsreleased);
+     QListWidget* NotesList = ui->listofgroups;
      QListWidgetItem* item = NotesList->currentItem();
      if(item && item->toolTip()!=curMenu)
      {
@@ -58,9 +58,9 @@ void windowofgroups::on_pushButton_released()
 }
 
 
-void windowofgroups::on_pushButton_pressed()
+void windowofgroups::on_exit_button_pressed()
 {
-     ui->pushButton->setStyleSheet(qspressed);
+     ui->exit_button->setStyleSheet(qspressed);
 }
 
 void windowofgroups::addtofile(QString nameoffile)

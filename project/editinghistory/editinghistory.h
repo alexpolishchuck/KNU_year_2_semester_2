@@ -225,7 +225,7 @@ private:
      *
      *@ref memento See memento
      */
-    QVector <concretememento*> mementos;
+    QVector <memento*> mementos;
     /*!
      * \brief createConnections
      * \param qobj[in] parent of caretaker
@@ -268,7 +268,7 @@ public:
   *
   * Removes item from the list without signal
   */
-   virtual void deleteItemNoSignal(QString text, uint _id)=0 ;
+    virtual void deleteItemNoSignal(QString text, uint _id){return;} ;
     /*!
       * \brief addItemNoSignal
      * \param text[in] text of an item
@@ -276,7 +276,7 @@ public:
      *
      *Adds item to the list without signal
       */
-    virtual void addItemNoSignal(QString text, uint _id)=0 ;
+    virtual void addItemNoSignal(QString text, uint _id){return;} ;
 
 
 };

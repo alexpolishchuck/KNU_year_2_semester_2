@@ -43,9 +43,9 @@ void receiveData(QString a, QString curInMenu,bool* b);
 private slots:
 
 
-    void on_pushButton_released();
+    void on_exit_button_released();
 
-    void on_pushButton_pressed();
+    void on_exit_button_pressed();
 
 private:
     Ui::windowofgroups *ui;
@@ -84,9 +84,9 @@ private:
     bool* isadded = nullptr;
 
     /*!
-     * @filereader See filereader
+     * @ref initfilereader See initfilereader
      */
-    filereader* fr;
+    initfilereader* gfr;
 
 
 

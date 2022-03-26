@@ -5,7 +5,7 @@
 #include <QListView>
 #include <QStringListModel>
 #include <QListWidgetItem>
-#include "secondwindow.h"
+#include "archivewindow.h"
 #include "windowofgroups.h"
 #include <QCloseEvent>
 #include <QVector>
@@ -18,6 +18,7 @@
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
 /*!
  * \brief The MainWindow class
  *
@@ -51,21 +52,21 @@ public slots:
 
 private slots:
 
-    void on_pushButton_pressed();
+    void on_exit_button_pressed();
 
-    void on_pushButton_2_pressed();
+    void on_delete_button_pressed();
 
-    void on_pushButton_3_pressed();
+    void on_archive_button_pressed();
 
-    void on_pushButton_4_pressed();
+    void on_add_group_button_pressed();
 
-    void on_pushButton_2_released();
+    void on_delete_button_released();
 
-    void on_pushButton_3_released();
+    void on_archive_button_released();
 
-    void on_pushButton_4_released();
+    void on_add_group_button_released();
 
-    void on_pushButton_released();
+    void on_exit_button_released();
 
     void on_lineEdit_editingFinished();
 
@@ -105,16 +106,18 @@ private slots:
      */
     void recreateHistoryOperator();//
 
-signals:
-    void sendDataToAnotherWindow(QString);
+    /*!
+     * \brief copyToGroup
+     * Copies item to the selected group
+     */
+    void copyToGroup();
 
-    void itemIsAdded(QString,uint);
+    /*!
+     * \brief moveToGroup
+     * Moves item to the selected group
+     */
+    void moveToGroup();
 
-    void itemIsDeleted(QString, uint);
-
-    void anotherWindowIsClosed();
-
-private:
     /*!
      * \brief saveToFile
      * \param nameOfFile[in] name of file
@@ -140,21 +143,12 @@ private:
      * Deletes item from the list, send
      */
     void deleteItem(QListWidgetItem *item, QListWidget* NotesList);
-    /*!
-     * \brief copyToGroup
-     * Copies item to the selected group
-     */
-    void copyToGroup();
+
     /*!
      * \brief createfiles
      * Creates files of the primary groups, such as 'notes'and 'archive'
      */
     void createfiles();
-    /*!
-     * \brief moveToGroup
-     * Moves item to the selected group
-     */
-    void moveToGroup();
     /*!
      * \brief changeMenuSelectionBack
      * Opens previous group
@@ -174,6 +168,15 @@ private:
      * Removes invalid item from the list of groups
      */
     void removeLastGroupItem();
+signals:
+    void sendDataToAnotherWindow(QString);
+
+    void itemIsAdded(QString,uint);
+
+    void itemIsDeleted(QString, uint);
+
+    void anotherWindowIsClosed();
+
 
 
 private:
@@ -183,7 +186,7 @@ private:
     /*!
      * @ref secondwindow See secondwindow
      */
-    secondwindow* secwindow;
+    archivewindow* secwindow;
 
     /*!
      * @ref windowofgroups See windowofgroups
@@ -195,9 +198,13 @@ private:
      */
     caretaker* historyOperator;
     /*!
-     * @filereader See filereader
+     * @ref initfilereader See initfilereader
      */
-    filereader* fr;
+    initfilereader* gfr;
+    /*!
+      * @ref initfilereader See initfilereader
+      */
+     initfilereader* nfr;
     /*!
      * \brief prevIndex
      * Saves id of the previously selected group
@@ -232,34 +239,16 @@ void closeEvent (QCloseEvent *event) override;
  * \brief qspressed
  * Style for a pressed button
  */
-QString qspressed = "font: 11pt\"Bodoni MT\" ;background-color: rgb(109, 127, 209); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
+QString const qspressed = "font: 11pt\"Bodoni MT\" ;background-color: rgb(109, 127, 209); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
 /*!
  * \brief qsreleased
  * Style for a released button
  */
-QString qsreleased = "font: 11pt\"Bodoni MT\" ;background-color: rgb(172, 169, 255); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
+QString const qsreleased = "font: 11pt\"Bodoni MT\" ;background-color: rgb(172, 169, 255); border-radius: 10px; border-bottom-style:solid;border-bottom-width: 5px; border-bottom-color: rgb(109, 127, 209);";
 
-///*!
-// * \brief NameOfNotes
-// * Name of the main file of
-// */
-//QString const NameOfNotes ="notes";
-///*!
-// * \brief NameOfArchive
-// * Name of file that contains archived notes
-// */
-//QString const NameOfArchive="archive";
-///*!
-// * \brief NameOfMenu
-// * Name of file that contains all names of groups
-// */
-//QString const NameOfMenu = "menu";
-///*!
-// * \brief fileFormat
-// * Stores file format
-// */
-//QString const fileFormat = ".txt";
-
+QString const initgroupname="change";
+QVector<QString> nameoferrors ={"Group with this name already exists or the name is invalid",
+                                "You entered more than " + QString::number(this->letterlimit) + " symbols"};
 
 };
 
