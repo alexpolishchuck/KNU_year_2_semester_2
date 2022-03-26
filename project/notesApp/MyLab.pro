@@ -9,22 +9,30 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    archivewindow.cpp \
+    filereader.cpp \
     main.cpp \
     mainwindow.cpp \
-    secondwindow.cpp \
     windowofgroups.cpp
 
 HEADERS += \
+    archivewindow.h \
+    filereader.h \
     mainwindow.h \
-    secondwindow.h \
     windowofgroups.h
 
 FORMS += \
+    archivewindow.ui \
     mainwindow.ui \
-    secondwindow.ui \
     windowofgroups.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-editinghistory-Desktop_Qt_6_2_3_MinGW_64_bit-Debug/release/ -leditinghistory
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-editinghistory-Desktop_Qt_6_2_3_MinGW_64_bit-Debug/debug/ -leditinghistory
+
+INCLUDEPATH += $$PWD/../editinghistory
+DEPENDPATH += $$PWD/../build-editinghistory-Desktop_Qt_6_2_3_MinGW_64_bit-Debug/debug
