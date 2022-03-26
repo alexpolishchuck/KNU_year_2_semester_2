@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['windowofgroups_0',['windowofgroups',['../classwindowofgroups.html',1,'']]]
+  ['originator_0',['originator',['../classoriginator.html',1,'']]]
 ];

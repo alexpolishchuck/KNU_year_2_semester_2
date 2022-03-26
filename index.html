@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.3"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>NoteApplication: Main Page</title>
+<title>NoteApp: NoteApp</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NoteApplication
+   <div id="projectname">NoteApp
    </div>
   </td>
  </tr>
@@ -61,10 +61,52 @@ $(function() {
 </iframe>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">NoteApplication Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">NoteApp </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><h1><a class="anchor" id="one"></a>
+Основні зміни, що були зроблені в коді</h1>
+<p >Серед змін, зроблених в коді цієї програми, є ширше застосування принципів ООП, застосування патернів, перебудова коду згідно з орієнтацією на принципи DRY,KISS,YAGNI та SOLID.</p>
+<h1><a class="anchor" id="two"></a>
+Застосування принципів ООП</h1>
+<p >З метою поліпшення коду для розуміння було звернено увагу на головні принципи ООП: інкапсуляцію, наслідування та поліморфізм. Окрім очевидного застосування інкапсуляції (майже всі класи містять в собі приватні поля та методи для взаємодії з ними), частішим стало використання поліморфізму та наслідування. Поліморфізм набуває форми як статичного, так і динамічного типу. Прикладом статичного є метод <a class="el" href="class_main_window.html#ad74d6922dd7ebe5372f9da65e2c4261c" title="removeSelectedItem Removes selected item from the list of notes">MainWindow::removeSelectedItem</a> (див. <a class="el" href="class_main_window.html">MainWindow</a> ) або ж <a class="el" href="classwindowofgroups.html#a8490e6fefbb25dc58a48e45ddf61b916" title="receiveData">windowofgroups::receiveData</a>(див. <a class="el" href="classwindowofgroups.html">windowofgroups</a> ). Динамічний тип застосований при створенні таких методів, як <a class="el" href="class_main_window.html#a7a1fb60511295066f912b29f1f53644d" title="deleteItemNoSignal See originator::deleteItemNoSignal(QString text, uint _id)">MainWindow::deleteItemNoSignal</a> (див. <a class="el" href="class_main_window.html">MainWindow</a> ) або ж методи класу <a class="el" href="classreaderofnotes.html">readerofnotes</a>.</p>
+<p >З'явилася більша кількість випадків використання наслідування, зокрема цим користуються такі класи, як <a class="el" href="class_main_window.html">MainWindow</a> , <a class="el" href="classarchivewindow.html">archivewindow</a> , <a class="el" href="classconcretememento.html">concretememento</a> та інші.</p>
+<h1><a class="anchor" id="three"></a>
+Патерни</h1>
+<p >З метою надання гнучкості класу, який виконує функцію зчитування даних з файлів (див. <a class="el" href="classinitfilereader.html">initfilereader</a> ), було використано патерн "Template Method". Згідно з цим патерном, було створено зразковий метод <a class="el" href="classinitfilereader.html#a3d7c0fb269f13db103586d23f62e7807">initfilereader::readFromFile</a> та розділено його на окремі методи, які можуть бути перебудованими відповідно до потреб окремих класів. Ця можливість використана при утворенні двох класів <a class="el" href="classreaderofnotes.html">readerofnotes</a> та <a class="el" href="classreaderofgroups.html">readerofgroups</a>.</p>
+<p >Патерн "Memento", який надає алгоритм для побудови коду для реалізації зручного зберігання та відновлення попередніх станів об'єкта, був використаним при створенні функціоналу, який дозволяє користувачу скасувати свої попередні дії над списком та його елементами (див. <a class="el" href="editinghistory_8h_source.html">editinghistory.h</a> ). Цей функціонал був окремо винесеним в бібліотеку.</p>
+<h1><a class="anchor" id="four"></a>
+Принципи DRY,KISS,YAGNI та SOLID</h1>
+<h2><a class="anchor" id="DRY"></a>
+DRY</h2>
+<p >Код програми для нотатків частково притримується цього принципу. Зокрема, замість повторного написання однакових методів зчитування даних з файлів було створено файл <a class="el" href="filereader_8h_source.html">filereader.h</a> , який містить класи, відповідальні за втілення цієї функції, які використовують <a class="el" href="class_main_window.html">MainWindow</a> , <a class="el" href="classarchivewindow.html">archivewindow</a> та <a class="el" href="classwindowofgroups.html">windowofgroups</a> . Разом з цим були переписаними деякі методи, які були раніше створені з повторним використанням кодів інших методів або були занадто специфічними та не універсальними (наприклад, замість методу saveToArchive, який зберігав потрібний об'єкт типу QListWidgetItem* до архіву, було створено більш універсальний метод saveItem, який зберігає обраний об'єкт до обраного файлу)</p>
+<h2><a class="anchor" id="KISS"></a>
+KISS</h2>
+<p >Початковий код програми Ідея редагування вихідного коду задля спрощення його розуміння та використання, була втілена у змінах назв об'єктів на більш описові (наприкад, назва класу secondwindow було змінено на archivewindow , listWidget було змінено на listofnotes тощо), були створені окремі змінні для повторно використовуваних значень (наприклад, в коді були прибрані прямі використання назв файлів, натомість були створені такі змінні, як <a class="el" href="classinitfilereader.html#ad45f15b1b37e712563212fe5b3375c56">initfilereader::NameOfNotes</a>,  тощо).</p>
+<h2><a class="anchor" id="YAGNI"></a>
+YAGNI</h2>
+<p >Відхилення від цього принципу зустрічалися досить рідко в старому коді, тож значних змін в цьому напрямку не було. Серед полей та методів класів, за винятком одиничних випадків, немає тих, які б не використовувалися у ході виконання програми.</p>
+<p >Додавання нових можливостей програми відбувається поступово за необхідності шляхом створення нових класів та методів.</p>
+<h2><a class="anchor" id="SOLID"></a>
+SOLID</h2>
+<h3><a class="anchor" id="first"></a>
+Single-Responsibility Principle</h3>
+<p >Вихідний код в певному значенні притримувався цього принципу: класи поділяли між собою функціональність програми, залежно від їх типів: для роботи з усіма нотатками та групами використовувався клас <a class="el" href="class_main_window.html">MainWindow</a> з відповідними методами, для роботи виключно з архівом - <a class="el" href="classarchivewindow.html">archivewindow</a> , завдання вибору групи для копіювання та переміщення нотатки брав на себе клас windowofgroup. Проте велика кількість методів містила в собі багато приводів для змін, наприклад, у випадку зміни формату або назви файлів їх потрібно було б змінювати у кожному з методів, в якому відбувалась робота з файлами (те саме стосується текстів повідомлень про помилку).</p>
+<p >В оновленій версії коду ці помилки принципу єдиної відповідальності були здебільшого виправлені: надається перевага більшій кількості методів, які б брали на себе відповідальність за окрему функцію, яку виконують. Окрім вище згаданих речей, можна назвати ще й викоремлений в окремий клас функціонал читання файлів (див. <a class="el" href="classinitfilereader.html">initfilereader</a>), методи якого розділяють є втіленням принципу єдиної відповідальності.</p>
+<h3><a class="anchor" id="second"></a>
+Open-Closed Principle</h3>
+<p >В початковій версії коду цей принцип загалом оминався. В оновленій версії, завдяки відокремленню реалізації функціоналу від основних класів (<a class="el" href="class_main_window.html">MainWindow</a> , <a class="el" href="classarchivewindow.html">archivewindow</a> , <a class="el" href="classwindowofgroups.html">windowofgroups</a>), з'явилася більша кількість класів, які "відкриті" до застосування цього принципу, наприклад, <a class="el" href="classreaderofnotes.html">readerofnotes</a> , <a class="el" href="classreaderofgroups.html">readerofgroups</a> , <a class="el" href="classconcretememento.html">concretememento</a> тощо. Такі класи відкриті до розширення та закриті до модифікацій, що робить їх використання гнучким та універсальним.</p>
+<h3><a class="anchor" id="third"></a>
+Liskov Substitution Principle</h3>
+<p >Не використовувався в початковій версії коду, не набув практичного застосування в цій програмі з оновленою версією.</p>
+<h3><a class="anchor" id="fourth"></a>
+Interface Segregation Principle</h3>
+<p >Не використовувався в початковій версії коду. В оновленій версії випадки, коли потрібно реалізовувати непотрібний абстрактний клас або віртуальний метод, трапляютсья вкрай рідко. Приклади класів, які демонструють цей принцип: <a class="el" href="classinitfilereader.html">initfilereader</a> , <a class="el" href="classreaderofnotes.html">readerofnotes</a> та <a class="el" href="classreaderofgroups.html">readerofgroups</a></p>
+<h3><a class="anchor" id="fifth"></a>
+Dependency Inversion Principle</h3>
+<p >В попередній версії не використовувалося наслідування абстрактних класів. В оновленій версії з використанням абстрактних класів набув вжитку цей принцип, хоч і з деякими порушеннями через використання патерну. Його застосування продемонстровано на прикладі класів <a class="el" href="classinitfilereader.html">initfilereader</a> , <a class="el" href="classreaderofnotes.html">readerofnotes</a> (абстрактний) та <a class="el" href="classreaderofgroups.html">readerofgroups</a> або <a class="el" href="classmemento.html">memento</a> (абстрактний) та <a class="el" href="classconcretememento.html">concretememento</a> . Основним порушенням цього принципу у випадки перших трьох названих класів є конкретна імплементація в абстрактному класі. В двох останніх названих класах такого порушення немає. </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

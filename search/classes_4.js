@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['secondwindow_0',['secondwindow',['../classsecondwindow.html',1,'']]]
+  ['originator_0',['originator',['../classoriginator.html',1,'']]]
 ];

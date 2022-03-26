@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['secondwindow_0',['secondwindow',['../classsecondwindow.html',1,'']]],
-  ['setadded_1',['setAdded',['../classmemento.html#a50f6f562c1a9858036aa692c48eb6483',1,'memento::setAdded()'],['../classconcretememento.html#ab0c215267832da1e247fafa985b69226',1,'concretememento::setAdded()']]],
-  ['setcheckable_2',['setcheckable',['../classfilereader.html#a4f5232144778239a3a2bec4a5facf1ac',1,'filereader']]],
-  ['setdeleted_3',['setDeleted',['../classmemento.html#a804e9e6b3dc1fb4a5307b470ec3ad390',1,'memento::setDeleted()'],['../classconcretememento.html#a592c45cfb8cef496784666bec009290a',1,'concretememento::setDeleted()']]],
-  ['settooltip_4',['setToolTip',['../classfilereader.html#a06974e373cfea8d547c2606ccee802aa',1,'filereader']]]
+  ['mainwindow_0',['MainWindow',['../class_main_window.html',1,'']]],
+  ['makeshort_1',['makeshort',['../classinitfilereader.html#a4a62e79652b50d4ee4b3c9151be8d9c8',1,'initfilereader::makeshort()'],['../classreaderofnotes.html#a5621460a6c642edbe50ae6592969a590',1,'readerofnotes::makeshort()'],['../classreaderofgroups.html#a79aca0825f6b4434b29575e5cb266164',1,'readerofgroups::makeshort()']]],
+  ['memento_2',['memento',['../classmemento.html',1,'']]],
+  ['mementos_3',['mementos',['../classcaretaker.html#a91fa82f5cfc07e15a7de387290b5b13b',1,'caretaker']]],
+  ['movetofile_4',['moveToFile',['../classarchivewindow.html#a98c5526ad3e298abda998b4adfa233db',1,'archivewindow']]],
+  ['movetogroup_5',['moveToGroup',['../class_main_window.html#a2f3c77265756a843cfd610790640ff2a',1,'MainWindow']]]
 ];
