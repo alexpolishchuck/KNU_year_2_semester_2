@@ -1,2 +1,0 @@
-/*! \brief Note Application by Polishchuck Oleksandr
-*\
