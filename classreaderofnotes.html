@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.3"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>NoteApp: readerofnotes Class Reference</title>
+<title>My Project: readerofnotes Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NoteApp
+   <div id="projectname">My Project
    </div>
   </td>
  </tr>
@@ -92,6 +92,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5621460a6c642edbe50ae6592969a590"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefa0f4f53458e6946c7069e4e25fd91a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaderofnotes.html#aefa0f4f53458e6946c7069e4e25fd91a">setcheckable</a> (QListWidgetItem *item) override</td></tr>
 <tr class="separator:aefa0f4f53458e6946c7069e4e25fd91a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a844dd1d4f4f8f8a13ba65c21496798a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaderofnotes.html#a844dd1d4f4f8f8a13ba65c21496798a9">saveToFile</a> (QString nameOfFile, QListWidget *NotesList) override</td></tr>
+<tr class="memdesc:a844dd1d4f4f8f8a13ba65c21496798a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">saveToFile  <a href="classreaderofnotes.html#a844dd1d4f4f8f8a13ba65c21496798a9">More...</a><br /></td></tr>
+<tr class="separator:a844dd1d4f4f8f8a13ba65c21496798a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93f6ff4c232ea8c3eb5f90ceae9c5d30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaderofnotes.html#a93f6ff4c232ea8c3eb5f90ceae9c5d30">saveItem</a> (QListWidgetItem *item, QString nameoffile) override</td></tr>
+<tr class="memdesc:a93f6ff4c232ea8c3eb5f90ceae9c5d30"><td class="mdescLeft">&#160;</td><td class="mdescRight">saveItem  <a href="classreaderofnotes.html#a93f6ff4c232ea8c3eb5f90ceae9c5d30">More...</a><br /></td></tr>
+<tr class="separator:a93f6ff4c232ea8c3eb5f90ceae9c5d30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classinitfilereader"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classinitfilereader')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classinitfilereader.html">initfilereader</a></td></tr>
 <tr class="memitem:a0dff2521579827552b2e0d0001e953d9 inherit pub_methods_classinitfilereader"><td class="memItemLeft" align="right" valign="top"><a id="a0dff2521579827552b2e0d0001e953d9" name="a0dff2521579827552b2e0d0001e953d9"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>initfilereader</b> (QString notes, QString archive, QString menu, QString file)</td></tr>
@@ -155,6 +161,8 @@ QString const&#160;</td><td class="memItemRight" valign="bottom"><b>fileFormat</
 <p >NameOfArchive Name of file that contains archived notes &zwj;/ QString const NameOfArchive="archive"; /*!</p>
 <p >NameOfMenu Name of file that contains all names of groups &zwj;/ QString const NameOfMenu = "menu"; /*!</p>
 <p >fileFormat Stores file format &zwj;/ QString const fileFormat = ".txt"; };</p>
+<p >class filesaver { protected: virtual void <a class="el" href="classreaderofnotes.html#a844dd1d4f4f8f8a13ba65c21496798a9" title="saveToFile">saveToFile(QString nameOfFile,QListWidget* NotesList)</a>=0;</p>
+<p >virtual void <a class="el" href="classreaderofnotes.html#a93f6ff4c232ea8c3eb5f90ceae9c5d30" title="saveItem">saveItem(QListWidgetItem *item, QString nameoffile)</a>=0; };</p>
 <p >/*!</p>
 <p >The readerofnotes class</p>
 <p >Class that implements initfilereader, reads notes from file </p>
@@ -198,6 +206,98 @@ QString const&#160;</td><td class="memItemRight" valign="bottom"><b>fileFormat</
 
 </div>
 </div>
+<a id="a93f6ff4c232ea8c3eb5f90ceae9c5d30" name="a93f6ff4c232ea8c3eb5f90ceae9c5d30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93f6ff4c232ea8c3eb5f90ceae9c5d30">&#9670;&nbsp;</a></span>saveItem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void readerofnotes::saveItem </td>
+          <td>(</td>
+          <td class="paramtype">QListWidgetItem *&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>nameoffile</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>saveItem </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item[in]</td><td></td></tr>
+    <tr><td class="paramname">nameoffile[in]</td><td>name of file</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Saves specific item to file </p>
+
+</div>
+</div>
+<a id="a844dd1d4f4f8f8a13ba65c21496798a9" name="a844dd1d4f4f8f8a13ba65c21496798a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a844dd1d4f4f8f8a13ba65c21496798a9">&#9670;&nbsp;</a></span>saveToFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void readerofnotes::saveToFile </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>nameOfFile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QListWidget *&#160;</td>
+          <td class="paramname"><em>NotesList</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>saveToFile </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nameOfFile[in]</td><td>name of file </td></tr>
+    <tr><td class="paramname">NotesList[in]</td><td>list of notes</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Saves notes from &lt;QListWidget* NotesList&gt; to file </p>
+
+</div>
+</div>
 <a id="aefa0f4f53458e6946c7069e4e25fd91a" name="aefa0f4f53458e6946c7069e4e25fd91a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aefa0f4f53458e6946c7069e4e25fd91a">&#9670;&nbsp;</a></span>setcheckable()</h2>
 
@@ -227,8 +327,9 @@ QString const&#160;</td><td class="memItemRight" valign="bottom"><b>fileFormat</
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Qt/labs/lab1/<a class="el" href="filereader_8h_source.html">filereader.h</a></li>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>project/notesApp/<a class="el" href="filereader_8h_source.html">filereader.h</a></li>
+<li>project/notesApp/filereader.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

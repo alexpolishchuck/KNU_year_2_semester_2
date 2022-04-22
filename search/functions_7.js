@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['makeshort_0',['makeshort',['../classinitfilereader.html#a4a62e79652b50d4ee4b3c9151be8d9c8',1,'initfilereader::makeshort()'],['../classreaderofnotes.html#a5621460a6c642edbe50ae6592969a590',1,'readerofnotes::makeshort()'],['../classreaderofgroups.html#a79aca0825f6b4434b29575e5cb266164',1,'readerofgroups::makeshort()']]],
-  ['movetofile_1',['moveToFile',['../classarchivewindow.html#a98c5526ad3e298abda998b4adfa233db',1,'archivewindow']]],
-  ['movetogroup_2',['moveToGroup',['../class_main_window.html#a2f3c77265756a843cfd610790640ff2a',1,'MainWindow']]]
+  ['readfromfile_0',['readFromFile',['../classinitfilereader.html#a3d7c0fb269f13db103586d23f62e7807',1,'initfilereader']]],
+  ['receivedata_1',['receiveData',['../classwindowofgroups.html#a8490e6fefbb25dc58a48e45ddf61b916',1,'windowofgroups::receiveData(QString a, QString curInMenu)'],['../classwindowofgroups.html#a112f23b38aafa51d588965eacc0af2e2',1,'windowofgroups::receiveData(QString a, QString curInMenu, bool *b)']]]
 ];

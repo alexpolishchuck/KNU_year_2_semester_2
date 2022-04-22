@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['curmenu_0',['curMenu',['../classwindowofgroups.html#a15a0201d532804b05f6b778863beabd7',1,'windowofgroups']]]
+  ['fileformat_0',['fileFormat',['../classinitfilereader.html#aa5f6859201d817ded3acaaed8a90a937',1,'initfilereader']]]
 ];

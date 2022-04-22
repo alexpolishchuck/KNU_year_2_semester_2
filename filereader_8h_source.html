@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.3"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>NoteApp: C:/Qt/labs/lab1/filereader.h Source File</title>
+<title>My Project: project/notesApp/filereader.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NoteApp
+   <div id="projectname">My Project
    </div>
   </td>
  </tr>
@@ -62,7 +62,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_30b8b56b34db815a64954e8b425ad116.html">lab1</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_6609538678f75e9c1e48b85a1b845a03.html">project</a></li><li class="navelem"><a class="el" href="dir_674025b07c02faf0f3e22702c223957e.html">notesApp</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -190,50 +190,67 @@ $(function() {
 <div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="comment">//     QString const fileFormat = &quot;.txt&quot;;</span></div>
 <div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="comment">//};</span></div>
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno"><a class="line" href="classreaderofnotes.html">  190</a></span><span class="keyword">class </span><a class="code hl_class" href="classreaderofnotes.html">readerofnotes</a>: <span class="keyword">public</span> <a class="code hl_class" href="classinitfilereader.html">initfilereader</a></div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>{</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    <a class="code hl_class" href="classreaderofnotes.html">readerofnotes</a>(QString notes,QString archive,QString menu, QString file): <a class="code hl_class" href="classinitfilereader.html">initfilereader</a>( notes, archive, menu,  file){};</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    <a class="code hl_class" href="classreaderofnotes.html">readerofnotes</a>():<a class="code hl_class" href="classinitfilereader.html">initfilereader</a>(){};</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    <a class="code hl_class" href="classreaderofnotes.html">~readerofnotes</a>(){};</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno"><a class="line" href="classreaderofnotes.html#a5621460a6c642edbe50ae6592969a590">  199</a></span>    QString <a class="code hl_function" href="classreaderofnotes.html#a5621460a6c642edbe50ae6592969a590">makeshort</a>(QListWidget* NotesList,QString str)<span class="keyword"> override</span></div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        <span class="keywordtype">int</span> width = NotesList-&gt;width()/2;</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>       str = QFontMetrics(NotesList-&gt;font()).elidedText(str,Qt::ElideRight,width,0);</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>       <span class="keywordflow">return</span> str;</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    }</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno"><a class="line" href="classreaderofnotes.html#aefa0f4f53458e6946c7069e4e25fd91a">  209</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classreaderofnotes.html#aefa0f4f53458e6946c7069e4e25fd91a">setcheckable</a>(QListWidgetItem *item)<span class="keyword"> override</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="keyword">class </span>filesaver</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>{</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> saveToFile(QString nameOfFile,QListWidget* NotesList)=0;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> saveItem(QListWidgetItem *item, QString nameoffile)=0;</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>};</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="classreaderofnotes.html">  200</a></span><span class="keyword">class </span><a class="code hl_class" href="classreaderofnotes.html">readerofnotes</a>: <span class="keyword">public</span> <a class="code hl_class" href="classinitfilereader.html">initfilereader</a>, <span class="keyword">public</span> filesaver</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>{</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <a class="code hl_class" href="classreaderofnotes.html">readerofnotes</a>(QString notes,QString archive,QString menu, QString file): <a class="code hl_class" href="classinitfilereader.html">initfilereader</a>( notes, archive, menu,  file){};</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <a class="code hl_class" href="classreaderofnotes.html">readerofnotes</a>():<a class="code hl_class" href="classinitfilereader.html">initfilereader</a>(){};</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <a class="code hl_class" href="classreaderofnotes.html">~readerofnotes</a>(){};</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno"><a class="line" href="classreaderofnotes.html#a5621460a6c642edbe50ae6592969a590">  209</a></span>    QString <a class="code hl_function" href="classreaderofnotes.html#a5621460a6c642edbe50ae6592969a590">makeshort</a>(QListWidget* NotesList,QString str)<span class="keyword"> override</span></div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>         item-&gt;setData(Qt::CheckStateRole,0);</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    }</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>};</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno"><a class="line" href="classreaderofgroups.html">  219</a></span><span class="keyword">class </span><a class="code hl_class" href="classreaderofgroups.html">readerofgroups</a> : <span class="keyword">public</span> <a class="code hl_class" href="classinitfilereader.html">initfilereader</a></div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>{</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <a class="code hl_class" href="classreaderofgroups.html">readerofgroups</a>():<a class="code hl_class" href="classinitfilereader.html">initfilereader</a>(){};</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <a class="code hl_class" href="classreaderofgroups.html">readerofgroups</a>(QString notes,QString archive,QString menu, QString file): <a class="code hl_class" href="classinitfilereader.html">initfilereader</a>( notes, archive, menu,  file){};</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <a class="code hl_class" href="classreaderofgroups.html">~readerofgroups</a>(){};</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno"><a class="line" href="classreaderofgroups.html#a79aca0825f6b4434b29575e5cb266164">  231</a></span>    QString <a class="code hl_function" href="classreaderofgroups.html#a79aca0825f6b4434b29575e5cb266164">makeshort</a>(QListWidget* NotesList,QString str)<span class="keyword"> override</span></div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        <span class="keywordtype">int</span> width = NotesList-&gt;width()/2;</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>       str = QFontMetrics(NotesList-&gt;font()).elidedText(str,Qt::ElideRight,width,0);</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>       <span class="keywordflow">return</span> str;</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    }</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno"><a class="line" href="classreaderofgroups.html#a06bd1afcd4dd5c0dbfa555d4711facd8">  241</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classreaderofgroups.html#a06bd1afcd4dd5c0dbfa555d4711facd8">setToolTip</a>(QListWidgetItem* item,QString str)<span class="keyword"> override</span></div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        item-&gt;setToolTip(str);</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    }</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno"><a class="line" href="classreaderofgroups.html#a795060655dec68bed199eea777854aed">  250</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classreaderofgroups.html#a795060655dec68bed199eea777854aed">setcheckable</a>(QListWidgetItem *item)<span class="keyword"> override</span></div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>         item-&gt;setData(Qt::TextAlignmentRole,Qt::AlignLeft);</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    }</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>};</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="preprocessor">#endif </span><span class="comment">// FILEREADER_H</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        <span class="keywordtype">int</span> width = NotesList-&gt;width()/2;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>       str = QFontMetrics(NotesList-&gt;font()).elidedText(str,Qt::ElideRight,width,0);</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>       <span class="keywordflow">return</span> str;</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    }</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno"><a class="line" href="classreaderofnotes.html#aefa0f4f53458e6946c7069e4e25fd91a">  219</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classreaderofnotes.html#aefa0f4f53458e6946c7069e4e25fd91a">setcheckable</a>(QListWidgetItem *item)<span class="keyword"> override</span></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span><span class="keyword">    </span>{</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>         item-&gt;setData(Qt::CheckStateRole,0);</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    }</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classreaderofnotes.html#a844dd1d4f4f8f8a13ba65c21496798a9">saveToFile</a>(QString nameOfFile,QListWidget* NotesList) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classreaderofnotes.html#a93f6ff4c232ea8c3eb5f90ceae9c5d30">saveItem</a>(QListWidgetItem *item, QString nameoffile) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>};</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno"><a class="line" href="classreaderofgroups.html">  246</a></span><span class="keyword">class </span><a class="code hl_class" href="classreaderofgroups.html">readerofgroups</a> : <span class="keyword">public</span> <a class="code hl_class" href="classinitfilereader.html">initfilereader</a>, <span class="keyword">public</span> filesaver</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>{</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    <a class="code hl_class" href="classreaderofgroups.html">readerofgroups</a>():<a class="code hl_class" href="classinitfilereader.html">initfilereader</a>(){};</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <a class="code hl_class" href="classreaderofgroups.html">readerofgroups</a>(QString notes,QString archive,QString menu, QString file): <a class="code hl_class" href="classinitfilereader.html">initfilereader</a>( notes, archive, menu,  file){};</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <a class="code hl_class" href="classreaderofgroups.html">~readerofgroups</a>(){};</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span> </div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    QString makeshort(QListWidget* NotesList,QString str)<span class="keyword"> override</span></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span><span class="keyword">    </span>{</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        <span class="keywordtype">int</span> width = NotesList-&gt;width()/2;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>       str = QFontMetrics(NotesList-&gt;font()).elidedText(str,Qt::ElideRight,width,0);</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>       <span class="keywordflow">return</span> str;</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    }</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <span class="keywordtype">void</span> setToolTip(QListWidgetItem* item,QString str)<span class="keyword"> override</span></div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span><span class="keyword">    </span>{</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        item-&gt;setToolTip(str);</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    }</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <span class="keywordtype">void</span> setcheckable(QListWidgetItem *item)<span class="keyword"> override</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span><span class="keyword">    </span>{</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>         item-&gt;setData(Qt::TextAlignmentRole,Qt::AlignLeft);</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    }</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    <span class="keywordtype">void</span> saveToFile(QString nameOfFile,QListWidget* NotesList) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    <span class="keywordtype">void</span> saveItem(QListWidgetItem *item, QString nameoffile) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>};</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span> </div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span><span class="preprocessor">#endif </span><span class="comment">// FILEREADER_H</span></div>
 <div class="ttc" id="aclassinitfilereader_html"><div class="ttname"><a href="classinitfilereader.html">initfilereader</a></div><div class="ttdoc">The initfilereader class.</div><div class="ttdef"><b>Definition:</b> filereader.h:15</div></div>
 <div class="ttc" id="aclassinitfilereader_html_a04648990bd20b213e24e421feb60700c"><div class="ttname"><a href="classinitfilereader.html#a04648990bd20b213e24e421feb60700c">initfilereader::getNameOfNotes</a></div><div class="ttdeci">virtual QString getNameOfNotes()</div><div class="ttdoc">getNameOfNotes</div><div class="ttdef"><b>Definition:</b> filereader.h:31</div></div>
 <div class="ttc" id="aclassinitfilereader_html_a3d7c0fb269f13db103586d23f62e7807"><div class="ttname"><a href="classinitfilereader.html#a3d7c0fb269f13db103586d23f62e7807">initfilereader::readFromFile</a></div><div class="ttdeci">virtual void readFromFile(QListWidget *, QString)</div><div class="ttdoc">readFromFile</div><div class="ttdef"><b>Definition:</b> filereader.cpp:10</div></div>
@@ -247,13 +264,12 @@ $(function() {
 <div class="ttc" id="aclassinitfilereader_html_adf80fcb3a6543528591ab1a310ad71c2"><div class="ttname"><a href="classinitfilereader.html#adf80fcb3a6543528591ab1a310ad71c2">initfilereader::NameOfMenu</a></div><div class="ttdeci">QString const NameOfMenu</div><div class="ttdoc">NameOfMenu Name of file that contains all names of groups.</div><div class="ttdef"><b>Definition:</b> filereader.h:102</div></div>
 <div class="ttc" id="aclassinitfilereader_html_ae0b30cb4754d2580f88718c94de162a9"><div class="ttname"><a href="classinitfilereader.html#ae0b30cb4754d2580f88718c94de162a9">initfilereader::NameOfArchive</a></div><div class="ttdeci">QString const NameOfArchive</div><div class="ttdoc">NameOfArchive Name of file that contains archived notes.</div><div class="ttdef"><b>Definition:</b> filereader.h:97</div></div>
 <div class="ttc" id="aclassinitfilereader_html_af350bbad5d1fc264b56833150c965b50"><div class="ttname"><a href="classinitfilereader.html#af350bbad5d1fc264b56833150c965b50">initfilereader::getNameOfArchive</a></div><div class="ttdeci">virtual QString getNameOfArchive()</div><div class="ttdoc">getNameOfArchive</div><div class="ttdef"><b>Definition:</b> filereader.h:39</div></div>
-<div class="ttc" id="aclassreaderofgroups_html"><div class="ttname"><a href="classreaderofgroups.html">readerofgroups</a></div><div class="ttdoc">The readerofgroups class.</div><div class="ttdef"><b>Definition:</b> filereader.h:220</div></div>
-<div class="ttc" id="aclassreaderofgroups_html_a06bd1afcd4dd5c0dbfa555d4711facd8"><div class="ttname"><a href="classreaderofgroups.html#a06bd1afcd4dd5c0dbfa555d4711facd8">readerofgroups::setToolTip</a></div><div class="ttdeci">void setToolTip(QListWidgetItem *item, QString str) override</div><div class="ttdef"><b>Definition:</b> filereader.h:241</div></div>
-<div class="ttc" id="aclassreaderofgroups_html_a795060655dec68bed199eea777854aed"><div class="ttname"><a href="classreaderofgroups.html#a795060655dec68bed199eea777854aed">readerofgroups::setcheckable</a></div><div class="ttdeci">void setcheckable(QListWidgetItem *item) override</div><div class="ttdef"><b>Definition:</b> filereader.h:250</div></div>
-<div class="ttc" id="aclassreaderofgroups_html_a79aca0825f6b4434b29575e5cb266164"><div class="ttname"><a href="classreaderofgroups.html#a79aca0825f6b4434b29575e5cb266164">readerofgroups::makeshort</a></div><div class="ttdeci">QString makeshort(QListWidget *NotesList, QString str) override</div><div class="ttdef"><b>Definition:</b> filereader.h:231</div></div>
-<div class="ttc" id="aclassreaderofnotes_html"><div class="ttname"><a href="classreaderofnotes.html">readerofnotes</a></div><div class="ttdoc">readFromFileNotCheckable Reads file, saves items without the CheckStateRole ‍/ void readFromFileNotCh...</div><div class="ttdef"><b>Definition:</b> filereader.h:191</div></div>
-<div class="ttc" id="aclassreaderofnotes_html_a5621460a6c642edbe50ae6592969a590"><div class="ttname"><a href="classreaderofnotes.html#a5621460a6c642edbe50ae6592969a590">readerofnotes::makeshort</a></div><div class="ttdeci">QString makeshort(QListWidget *NotesList, QString str) override</div><div class="ttdef"><b>Definition:</b> filereader.h:199</div></div>
-<div class="ttc" id="aclassreaderofnotes_html_aefa0f4f53458e6946c7069e4e25fd91a"><div class="ttname"><a href="classreaderofnotes.html#aefa0f4f53458e6946c7069e4e25fd91a">readerofnotes::setcheckable</a></div><div class="ttdeci">void setcheckable(QListWidgetItem *item) override</div><div class="ttdef"><b>Definition:</b> filereader.h:209</div></div>
+<div class="ttc" id="aclassreaderofgroups_html"><div class="ttname"><a href="classreaderofgroups.html">readerofgroups</a></div><div class="ttdoc">The readerofgroups class.</div><div class="ttdef"><b>Definition:</b> filereader.h:247</div></div>
+<div class="ttc" id="aclassreaderofnotes_html"><div class="ttname"><a href="classreaderofnotes.html">readerofnotes</a></div><div class="ttdoc">readFromFileNotCheckable Reads file, saves items without the CheckStateRole ‍/ void readFromFileNotCh...</div><div class="ttdef"><b>Definition:</b> filereader.h:201</div></div>
+<div class="ttc" id="aclassreaderofnotes_html_a5621460a6c642edbe50ae6592969a590"><div class="ttname"><a href="classreaderofnotes.html#a5621460a6c642edbe50ae6592969a590">readerofnotes::makeshort</a></div><div class="ttdeci">QString makeshort(QListWidget *NotesList, QString str) override</div><div class="ttdef"><b>Definition:</b> filereader.h:209</div></div>
+<div class="ttc" id="aclassreaderofnotes_html_a844dd1d4f4f8f8a13ba65c21496798a9"><div class="ttname"><a href="classreaderofnotes.html#a844dd1d4f4f8f8a13ba65c21496798a9">readerofnotes::saveToFile</a></div><div class="ttdeci">void saveToFile(QString nameOfFile, QListWidget *NotesList) override</div><div class="ttdoc">saveToFile</div><div class="ttdef"><b>Definition:</b> filereader.cpp:33</div></div>
+<div class="ttc" id="aclassreaderofnotes_html_a93f6ff4c232ea8c3eb5f90ceae9c5d30"><div class="ttname"><a href="classreaderofnotes.html#a93f6ff4c232ea8c3eb5f90ceae9c5d30">readerofnotes::saveItem</a></div><div class="ttdeci">void saveItem(QListWidgetItem *item, QString nameoffile) override</div><div class="ttdoc">saveItem</div><div class="ttdef"><b>Definition:</b> filereader.cpp:55</div></div>
+<div class="ttc" id="aclassreaderofnotes_html_aefa0f4f53458e6946c7069e4e25fd91a"><div class="ttname"><a href="classreaderofnotes.html#aefa0f4f53458e6946c7069e4e25fd91a">readerofnotes::setcheckable</a></div><div class="ttdeci">void setcheckable(QListWidgetItem *item) override</div><div class="ttdef"><b>Definition:</b> filereader.h:219</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

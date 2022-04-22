@@ -8,6 +8,5 @@ var searchData=
   ['getnameofmenu_5',['getNameOfMenu',['../classinitfilereader.html#a6485d9e9c5df8a96a6ff3166474f2aee',1,'initfilereader']]],
   ['getnameofnotes_6',['getNameOfNotes',['../classinitfilereader.html#a04648990bd20b213e24e421feb60700c',1,'initfilereader']]],
   ['gettext_7',['gettext',['../classmemento.html#a632d10faee6e40f81b67d9b83d4596ce',1,'memento::gettext()'],['../classconcretememento.html#aeccde3269a4cd3adeb329cc4c2ff9ebb',1,'concretememento::gettext()']]],
-  ['gettime_8',['gettime',['../classmemento.html#a4cd87821226c23256acb80b70594873e',1,'memento::gettime()'],['../classconcretememento.html#a88d04a932b4e15a7a3dd9ecbc712a28a',1,'concretememento::gettime()']]],
-  ['gfr_9',['gfr',['../class_main_window.html#aa8a882be78a40f5ef14889de813be980',1,'MainWindow::gfr()'],['../classwindowofgroups.html#aee1bc5e61ae8cbd3772f0b7b83e5f0b2',1,'windowofgroups::gfr()']]]
+  ['gettime_8',['gettime',['../classmemento.html#a4cd87821226c23256acb80b70594873e',1,'memento::gettime()'],['../classconcretememento.html#a88d04a932b4e15a7a3dd9ecbc712a28a',1,'concretememento::gettime()']]]
 ];

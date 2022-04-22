@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['mainwindow_0',['MainWindow',['../class_main_window.html',1,'']]],
-  ['makeshort_1',['makeshort',['../classinitfilereader.html#a4a62e79652b50d4ee4b3c9151be8d9c8',1,'initfilereader::makeshort()'],['../classreaderofnotes.html#a5621460a6c642edbe50ae6592969a590',1,'readerofnotes::makeshort()'],['../classreaderofgroups.html#a79aca0825f6b4434b29575e5cb266164',1,'readerofgroups::makeshort()']]],
-  ['memento_2',['memento',['../classmemento.html',1,'']]],
-  ['mementos_3',['mementos',['../classcaretaker.html#a91fa82f5cfc07e15a7de387290b5b13b',1,'caretaker']]],
-  ['movetofile_4',['moveToFile',['../classarchivewindow.html#a98c5526ad3e298abda998b4adfa233db',1,'archivewindow']]],
-  ['movetogroup_5',['moveToGroup',['../class_main_window.html#a2f3c77265756a843cfd610790640ff2a',1,'MainWindow']]]
+  ['readerofgroups_0',['readerofgroups',['../classreaderofgroups.html',1,'']]],
+  ['readerofnotes_1',['readerofnotes',['../classreaderofnotes.html',1,'']]],
+  ['readfromfile_2',['readFromFile',['../classinitfilereader.html#a3d7c0fb269f13db103586d23f62e7807',1,'initfilereader']]],
+  ['receivedata_3',['receiveData',['../classwindowofgroups.html#a8490e6fefbb25dc58a48e45ddf61b916',1,'windowofgroups::receiveData(QString a, QString curInMenu)'],['../classwindowofgroups.html#a112f23b38aafa51d588965eacc0af2e2',1,'windowofgroups::receiveData(QString a, QString curInMenu, bool *b)']]]
 ];

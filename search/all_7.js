@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['historyoperator_0',['historyOperator',['../classarchivewindow.html#a4e90dac30bc2c4bc7e6eca548edb6ada',1,'archivewindow::historyOperator()'],['../class_main_window.html#a1e7b82cf60ce4bb20d8350a24eab43a5',1,'MainWindow::historyOperator()']]]
+  ['initfilereader_0',['initfilereader',['../classinitfilereader.html',1,'']]],
+  ['isadded_1',['isAdded',['../classmemento.html#acc4f29c030df74a9956ca9608c657b5e',1,'memento::isAdded()'],['../classconcretememento.html#a1666502347ea2247d97a73fa585c4795',1,'concretememento::isAdded()']]],
+  ['isdeleted_2',['isDeleted',['../classmemento.html#a3f05e4e87d2d98a272fd701b53996d46',1,'memento::isDeleted()'],['../classconcretememento.html#aad99dc271ce459f2c3c40c4543b4ab6b',1,'concretememento::isDeleted()']]]
 ];
