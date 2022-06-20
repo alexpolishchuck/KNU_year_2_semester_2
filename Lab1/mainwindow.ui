@@ -32,19 +32,19 @@ border-bottom-color: rgb(109, 127, 209);
 </string>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;NOTES&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>            NOTES</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QListWidget" name="listofgroups">
+       <widget class="QListWidget" name="listWidget_2">
         <property name="styleSheet">
          <string notr="true"/>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="add_group_button">
+       <widget class="QPushButton" name="pushButton_4">
         <property name="styleSheet">
          <string notr="true">font: 11pt &quot;Bodoni MT&quot;;
 background-color: rgb(172, 169, 255);
@@ -59,7 +59,7 @@ border-bottom-color: rgb(109, 127, 209);</string>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="archive_button">
+       <widget class="QPushButton" name="pushButton_3">
         <property name="styleSheet">
          <string notr="true">font: 11pt &quot;Bodoni MT&quot;;
 background-color: rgb(172, 169, 255);
@@ -75,7 +75,7 @@ border-bottom-color: rgb(109, 127, 209);
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="delete_button">
+       <widget class="QPushButton" name="pushButton_2">
         <property name="styleSheet">
          <string notr="true">font: 11pt &quot;Bodoni MT&quot;;
 background-color: rgb(172, 169, 255);
@@ -91,7 +91,7 @@ border-bottom-color: rgb(109, 127, 209);
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="exit_button">
+       <widget class="QPushButton" name="pushButton">
         <property name="styleSheet">
          <string notr="true">font: 11pt &quot;Bodoni MT&quot;;
 background-color: rgb(172, 169, 255);
@@ -114,7 +114,7 @@ border-bottom-color: rgb(109, 127, 209);
        <number>0</number>
       </property>
       <item>
-       <widget class="QListWidget" name="listofnotes"/>
+       <widget class="QListWidget" name="listWidget"/>
       </item>
       <item>
        <widget class="QLineEdit" name="lineEdit">
@@ -138,7 +138,7 @@ border-bottom-color: rgb(109, 127, 209);</string>
      <x>0</x>
      <y>0</y>
      <width>438</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
